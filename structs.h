@@ -15,4 +15,11 @@ typedef struct t {
 } lista;
 
 
+typedef struct e
+{
+	char * nombre;
+	int linea;
+	
+} etiqueta;
+
 #endif

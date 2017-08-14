@@ -14,4 +14,5 @@ int BuscarEspacio(lista L1,int a);
 lista moverNDerecha(lista L, int veces);
 lista moverNIzquierda(lista L, int veces);
 lista Decodificar(int desfase, lista LDescifrar, lista Alfabeto);
+
 #endif // _FUNCIONES_H

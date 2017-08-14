@@ -261,7 +261,7 @@ void Archivo()
 	
 	
 	fclose(entrada);
-	
+
 	
 	//////////////////////////////////////////////
 	//~ FILE * salida = fopen("salida.csv", "w+");
