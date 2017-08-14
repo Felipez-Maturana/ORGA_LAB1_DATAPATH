@@ -1,0 +1,2 @@
+El Caracter 1 se encuentra duplicado en el alfabeto a utilizar
+No se puede utilizar el alfabeto ingresado
