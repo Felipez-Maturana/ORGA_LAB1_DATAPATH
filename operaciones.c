@@ -349,10 +349,10 @@ void blt(char * reg1, char * reg2, char * etiqueta1, etiqueta * etiquetas, int c
 {
 	int a = get_value(reg1);
 	int b = get_value(reg2); 
-	printf(" %d < %d ??\n",a,b);
+	//~ printf(" %d < %d ??\n",a,b);
 	if( a < b) 
 	{
-		printf("%s %d > %s %d -> PC: %d\n",reg1,a,reg2,b,PC);
+		printf("\\\\\\\\\\\%s %d > %s %d -> PC: %d\n",reg1,a,reg2,b,PC);
 		PC = get_PC_etiqueta(etiqueta1, etiquetas, cantidadEtiquetas);
 	}
 	else
@@ -364,10 +364,10 @@ void bgt(char * reg1, char * reg2, char * etiqueta1, etiqueta * etiquetas, int c
 {
 	int a = get_value(reg1);
 	int b = get_value(reg2); 
-	printf(" %d > %d ??\n",a,b);
+	//~ printf(" %d > %d ??\n",a,b);
 	if( a > b )
 	{
-		printf("%s %d > %s %d -> PC: %d\n",reg1,a,reg2,b,PC);  
+		printf("\\\\\\\\\\\%s %d > %s %d -> PC: %d\n",reg1,a,reg2,b,PC);  
 		PC = get_PC_etiqueta(etiqueta1, etiquetas, cantidadEtiquetas);
 	}
 	else

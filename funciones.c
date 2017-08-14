@@ -10,9 +10,10 @@ void mostrarCadenas(lista L1)
 	int i=0;
 	while(i<L1.fin)
 	{
-		printf("%d %s \n",i,L1.arreglo[i].cadena);
+		printf("%s ",L1.arreglo[i].cadena);
 		i++;
 	}
+	printf("\n");
 }
 
 //Funcion que permite mostrar por pantalla una lista de la estructura
@@ -63,7 +64,7 @@ void mostrarListaEnlazada(lista * ListaEnlazada, int CantidadElementos)
 	int j;
 	for(i=0;i<CantidadElementos;i++)
 	{
-		printf("PC: %d \t|",ListaEnlazada[i].linea);
+		//~ printf("PC: %d \t|",ListaEnlazada[i].linea);
 		for (j = 0; j < ListaEnlazada[i].fin ; j++)
 		{
 			printf("%s|\t",ListaEnlazada[i].arreglo[j].cadena); 
@@ -99,7 +100,8 @@ void imprimirArchivoCSV(FILE * salida,lista * ListaEnlazada, int CantidadElement
 int tipoInstruccion(char * instruccion)
 {
 	if (strcmp(instruccion, "add") == 0 || 
-		strcmp(instruccion, "addi") == 0 || 
+		strcmp(instruccion, "addi") == 0 ||
+		strcmp(instruccion, "subi") == 0 || 
 		strcmp(instruccion, "beq") == 0 || 
 		strcmp(instruccion, "bne") == 0 || 
 		strcmp(instruccion, "sll") == 0 || 
@@ -199,7 +201,7 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 void Archivo()
 {
 	//~ int numLinea = 0;
-	FILE * entrada;
+	
 	
 	//Inicializando lista enlazada
 	lista * instrucciones;
@@ -213,7 +215,8 @@ void Archivo()
     int * CantidadListas = calloc(sizeof(int),1);
 	int * CantidadEtiquetas = calloc(sizeof(int),1);
 	
-	if( (entrada = fopen("simple.asm", "r")) == NULL)
+	FILE * entrada;
+	if( (entrada = fopen("iterativo.asm", "r")) == NULL)
 	{
 		printf("Error! Archivo no existe");
 		exit(1);
