@@ -19,9 +19,11 @@ lista * appendLista(lista L1, lista * ListaEnlazada, int * CantidadElementos)
 	//Se aumenta en uno la cantidad de elementos que posee esa lista
 	* CantidadElementos = *CantidadElementos + 1; 
 	//Se asigna mAs memoria a la lista enlazada que contendrA las listas
+
 	ListaEnlazada = (lista *) realloc(ListaEnlazada,*CantidadElementos*sizeof(lista));
+	
 	//Se asigna en la posicion indicada, la lista L1
-	ListaEnlazada[*CantidadElementos-1] = L1;
+	ListaEnlazada[*CantidadElementos-1] = L1 ;
 	return ListaEnlazada;
 }
 
@@ -143,6 +145,16 @@ void Archivo()
 	char * op3 = calloc(sizeof(char),10);
 	char * op4 = calloc(sizeof(char),10);
 	
+	lista L1 = crearLista();
+	lista L2 = crearLista();
+	lista L3 = crearLista();
+	L3 = insertar(L3,0,0,"");
+	L3 = insertar(L3,1,1,"");
+	L3 = insertar(L3,2,2,"");
+	L3 = insertar(L3,3,3,"");
+	
+	lista L4 = crearLista();
+	
 	while(fscanf(entrada,"%s",op1) != EOF)
 	{
 		if(tipoInstruccion(op1)==-1)
@@ -172,48 +184,25 @@ void Archivo()
 			op3[strlen(op3)-1]=0;
 			
 			
-			printf("|%s| |%s| |%s|\n",op2,op3,op4);
+			printf("%d = |%s| |%s| |%s|\n",*CantidadListas,op2,op3,op4);
 			
-			lista L2 = crearLista();
-			L2 = insertar(L2,numLinea,0,op1);
-			L2 = insertar(L2,numLinea,1,op2);
-			L2 = insertar(L2,numLinea,2,op3);
-			L2 = insertar(L2,numLinea,3,op4);
+			char * m1 = malloc(sizeof(char) * strlen(op1));
+			strcpy(m1,op1);
+			char * m2 = malloc(sizeof(char) * strlen(op2));
+			strcpy(m2,op2);
+			char * m3 = malloc(sizeof(char) * strlen(op3));
+			strcpy(m3,op3);
+			char * m4 = malloc(sizeof(char) * strlen(op4));
+			strcpy(m4,op4);
 			
 			
-			
-
-			//~ lista * L2 = calloc(sizeof(lista),1);
-			//~ *L2 =L1;
-			lista L1 = crearLista();
-			
-			copy_lista(&L2,&L1);
-			
-			//~ printf("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaamostrarL1\n"); 
-			//~ printf("mostrarL1\n");
-			getchar();
-
-			appendLista(L1, instrucciones, CantidadListas);
-			
-			//~ memcpy(instrucciones[*CantidadListas-1] ,L2,sizeof(L2));
-			
-			//~ appendLista(&L2, &instrucciones, CantidadListas);
-			
-			//~ instrucciones[*CantidadListas-1].arreglo[0].cadena = op1;
-			//~ instrucciones[*CantidadListas-1].arreglo[1].cadena = op2;
-			//~ instrucciones[*CantidadListas-1].arreglo[2].cadena = op3;
-			//~ instrucciones[*CantidadListas-1].arreglo[3].cadena = op4;
-			
-			printf("%d %s %s %s %s\n",*CantidadListas,op1,op2,op3,op4);
-			printf("%d %s %s %s %s\n",*CantidadListas,instrucciones[*CantidadListas-1].arreglo[0].cadena,instrucciones[*CantidadListas-1].arreglo[1].cadena,instrucciones[*CantidadListas-1].arreglo[2].cadena,instrucciones[*CantidadListas-1].arreglo[3].cadena);
-			
-
-			//~ instrucciones = (lista *) realloc(instrucciones,*CantidadListas*sizeof(lista));
-			//~ memcpy(&instrucciones[*CantidadListas-1], &L1, sizeof(L1));
-			
-
-			numLinea++;
-			mostrarListaEnlazada(instrucciones,numLinea);
+			L3.arreglo[0].cadena = m1;
+			L3.arreglo[1].cadena = m2;
+			L3.arreglo[2].cadena = m3;
+			L3.arreglo[3].cadena = m4;
+		
+			instrucciones[*CantidadListas] = L3;
+			*CantidadListas+=1;	
 		}
 		else if(tipoInstruccion(op1)==1)
 		{
@@ -239,9 +228,36 @@ void Archivo()
 
 		}	
 	} //FIN DE LECTURA ARCHIVO 
-	printf("///////%d\n",*CantidadListas);
-	instrucciones[3].arreglo[1].cadena="ZX";
-	mostrarListaEnlazada(instrucciones,numLinea);
+	
+	
+	
+	//~ printf("///////%d\n",*CantidadListas);
+	//~ instrucciones[3].arreglo[1].cadena="ZX";
+
+	//~ lista L1 = crearLista();
+	//~ L1 = append(L1,0,"L1,1");
+	//~ L1 = append(L1,0,"L1,2");
+	//~ L1 = append(L1,0,"L1,3");
+	//~ instrucciones = appendLista(L1,instrucciones,CantidadListas);
+	
+	
+	//~ lista L2 = crearLista();
+	//~ L2 = append(L2,1,"L2,1");
+	
+	//~ L1.arreglo[0].cadena = "XC";
+	//~ instrucciones = appendLista(L1,instrucciones,CantidadListas);
+
+	//~ lista L3 = crearLista();
+	//~ L3 = append(L3,0,"L3,1");
+	//~ L3 = append(L3,0,"L3,2");
+	//~ L3 = append(L3,0,"L3,3");
+	//~ L3 = append(L3,0,"L3,4"); 
+	
+	
+	//~ instrucciones = appendLista(L3,instrucciones,CantidadListas);
+
+	
+	mostrarListaEnlazada(instrucciones,*CantidadListas);
 	
 	//~ lista * instrucciones = (lista *) calloc(sizeof(lista),50);
     //~ int * CantidadListas = calloc(sizeof(int),1);
