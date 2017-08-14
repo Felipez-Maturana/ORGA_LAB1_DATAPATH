@@ -9,6 +9,7 @@ typedef struct s {
 
 typedef struct t {
     nodo arreglo[MAX_ARR];
+    int linea;
     int cabeza;
     int fin;
 } lista;

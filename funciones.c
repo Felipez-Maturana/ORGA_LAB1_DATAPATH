@@ -50,7 +50,7 @@ void mostrarListaEnlazada(lista * ListaEnlazada, int CantidadElementos)
 	int j;
 	for(i=0;i<CantidadElementos;i++)
 	{
-		printf("|");
+		printf("PC: %d \t|",ListaEnlazada[i].linea);
 		for (j = 0; j < ListaEnlazada[i].fin ; j++)
 		{
 			printf("%s|\t",ListaEnlazada[i].arreglo[j].cadena); 
@@ -124,7 +124,7 @@ int tipoInstruccion(char * instruccion)
 
 void Archivo()
 {
-	int numLinea = 0;
+	//~ int numLinea = 0;
 	FILE * entrada;
 	
 	//Inicializando lista enlazada
@@ -146,6 +146,8 @@ void Archivo()
 	char * op4 = calloc(sizeof(char),10);
 	
 	lista L1 = crearLista();
+	L1 = insertar(L1,0,0,"");
+	L1 = insertar(L1,1,1,"");
 	lista L2 = crearLista();
 	lista L3 = crearLista();
 	L3 = insertar(L3,0,0,"");
@@ -183,8 +185,7 @@ void Archivo()
 			op2[strlen(op2)-1]=0;
 			op3[strlen(op3)-1]=0;
 			
-			
-			printf("%d = |%s| |%s| |%s|\n",*CantidadListas,op2,op3,op4);
+	
 			
 			char * m1 = malloc(sizeof(char) * strlen(op1));
 			strcpy(m1,op1);
@@ -195,7 +196,7 @@ void Archivo()
 			char * m4 = malloc(sizeof(char) * strlen(op4));
 			strcpy(m4,op4);
 			
-			
+			L3.linea = *CantidadListas;
 			L3.arreglo[0].cadena = m1;
 			L3.arreglo[1].cadena = m2;
 			L3.arreglo[2].cadena = m3;
@@ -209,23 +210,18 @@ void Archivo()
 			fscanf(entrada,"%s",op2);
 			if(strchr(op2,'$'))
 			{
-				strncpy(op2,&op2[1],strlen(op2));		
-				//~ op2++;		
+				strncpy(op2,&op2[1],strlen(op2));			
 			}
 			
-			
-			printf("|%s|\n",op2);
-			
-			lista L1 = crearLista();
-			L1 = append(L1,numLinea,op1);
-			L1 = append(L1,numLinea,op2);
-			//~ lista * L2 = calloc(sizeof(lista),1);
-			//~ *L2 = L1; 
-			instrucciones = appendLista(L1, instrucciones, CantidadListas);
-			
-			numLinea++;
-			mostrarListaEnlazada(instrucciones,numLinea);
-
+			char * m1 = malloc(sizeof(char) * strlen(op1));
+			strcpy(m1,op1);
+			char * m2 = malloc(sizeof(char) * strlen(op2));
+			strcpy(m2,op2);
+			L1.arreglo[0].cadena = m1;
+			L1.arreglo[1].cadena = m2;
+			L1.linea = *CantidadListas;
+			instrucciones[*CantidadListas] = L1;
+			*CantidadListas+=1;	
 		}	
 	} //FIN DE LECTURA ARCHIVO 
 	
