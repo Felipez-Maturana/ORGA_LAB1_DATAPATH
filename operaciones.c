@@ -310,6 +310,13 @@ void addi(char * reg1, char * reg2, int value)
 	PC+=1;
 }
 
+void subi(char * reg1, char * reg2, int value)
+{
+	int res = get_value(reg2) - value;
+	set_value(reg1,res);
+	PC+=1;
+}
+
 void add(char * reg1, char * reg2, char * reg3)
 {
 	int res = get_value(reg2) + get_value(reg3);

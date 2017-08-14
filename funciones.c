@@ -155,6 +155,10 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		{
 			addi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, atoi(instrucciones[PC].arreglo[3].cadena) );
 		}
+		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "subi") == 0)
+		{
+			subi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, atoi(instrucciones[PC].arreglo[3].cadena) );
+		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "add")== 0)
 		{
 			add(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
