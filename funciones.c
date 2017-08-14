@@ -1,5 +1,7 @@
 #include "structs.h"
 #include <stdio.h>
+#include "operaciones.c"
+
 
 //Funcion que se encarga de mostrar las cadenas de texto de los 
 //elementos de la estructura lista
@@ -10,6 +12,17 @@ void mostrarCadenas(lista L1)
 	{
 		printf("%d %s \n",i,L1.arreglo[i].cadena);
 		i++;
+	}
+}
+
+//Funcion que permite mostrar por pantalla una lista de la estructura
+//etiqueta
+void mostrarEtiquetas(etiqueta * etiquetas, int cantidad)
+{
+	int i=0;
+	for(;i<cantidad;i++)
+	{
+		printf("%d: |%s| PC: %d\n",i,etiquetas[i].nombre,etiquetas[i].linea);
 	}
 }
 
@@ -58,6 +71,7 @@ void mostrarListaEnlazada(lista * ListaEnlazada, int CantidadElementos)
 		printf("\n");
 	}
 }
+
 
 //Funcion que se encarga de mostrar las cadenas de una lista de lista
 //en un archivo FILE dado en el argumento
@@ -122,17 +136,78 @@ int tipoInstruccion(char * instruccion)
 
 
 
+
+void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta * etiquetas, int cantidadEtiquetas)
+{
+	//~ mostrarListaEnlazada(instrucciones,cantidadInstrucciones);
+	//~ mostrarEtiquetas(etiquetas,cantidadEtiquetas);
+	
+	
+	while( PC < cantidadInstrucciones )
+	{
+		
+		/////BEGIN DEBUG MODE//////
+		printf("PC: %d\n",PC);
+		mostrarCadenas(instrucciones[PC]);
+		
+		//////END DEBUG MODE///////
+		if(strcmp(instrucciones[PC].arreglo[0].cadena, "addi") == 0)
+		{
+			addi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, atoi(instrucciones[PC].arreglo[3].cadena) );
+		}
+		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "add")== 0)
+		{
+			add(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
+		}
+		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "sub")== 0)
+		{
+			sub(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
+		}
+		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "mul")== 0)
+		{
+			mul(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
+		}
+		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "div")== 0)
+		{
+			divi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
+		}
+		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "blt")== 0)
+		{
+			blt(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena, etiquetas, cantidadEtiquetas);
+		}
+		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "bgt")== 0)
+		{
+			bgt(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena, etiquetas, cantidadEtiquetas);
+		}
+		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "j")== 0)
+		{
+			j(instrucciones[PC].arreglo[1].cadena, etiquetas, cantidadEtiquetas);
+			
+		}
+		else
+		{
+			printf("INSTRUCCION NO ENCONTRADA %s",instrucciones[PC].arreglo[0].cadena);
+		}
+	} 	
+}
+
+
 void Archivo()
 {
 	//~ int numLinea = 0;
 	FILE * entrada;
 	
 	//Inicializando lista enlazada
-	
 	lista * instrucciones;
 	instrucciones = (lista *) calloc(sizeof(lista),20);	
 
+	//Inicializando etiquetas;
+	etiqueta * etiquetas;
+	etiquetas = (etiqueta *)calloc(sizeof(etiqueta),10);
+	
+	
     int * CantidadListas = calloc(sizeof(int),1);
+	int * CantidadEtiquetas = calloc(sizeof(int),1);
 	
 	if( (entrada = fopen("simple.asm", "r")) == NULL)
 	{
@@ -148,14 +223,14 @@ void Archivo()
 	lista L1 = crearLista();
 	L1 = insertar(L1,0,0,"");
 	L1 = insertar(L1,1,1,"");
-	lista L2 = crearLista();
+	//~ lista L2 = crearLista();
 	lista L3 = crearLista();
 	L3 = insertar(L3,0,0,"");
 	L3 = insertar(L3,1,1,"");
 	L3 = insertar(L3,2,2,"");
 	L3 = insertar(L3,3,3,"");
 	
-	lista L4 = crearLista();
+	//~ lista L4 = crearLista();
 	
 	while(fscanf(entrada,"%s",op1) != EOF)
 	{
@@ -169,17 +244,14 @@ void Archivo()
 			fscanf(entrada,"%s %s %s",op2,op3,op4);
 			if(strchr(op2,'$'))
 			{
-				strncpy(op2,&op2[1],strlen(op2));		
-				//~ op2++;		
+				strncpy(op2,&op2[1],strlen(op2));
 			}
 			if(strchr(op3,'$'))
 			{
-				//~ op3++;
 				strncpy(op3,&op3[1],strlen(op3));				
 			}
 			if(strchr(op4,'$'))
 			{
-				//~ op4++;
 				strncpy(op4,&op4[1],strlen(op4));				
 			}
 			op2[strlen(op2)-1]=0;
@@ -222,75 +294,30 @@ void Archivo()
 			L1.linea = *CantidadListas;
 			instrucciones[*CantidadListas] = L1;
 			*CantidadListas+=1;	
-		}	
+				
+		}
+		//LABELS
+		else if (tipoInstruccion(op1)==0)
+		{
+				char * temp = calloc(sizeof(char),strlen(op1));
+				strcpy(temp,op1);
+				//Se borra el ultimo caracter (:)
+				temp[strlen(temp)-1]=0;
+				etiquetas[*CantidadEtiquetas].nombre = temp;
+				etiquetas[*CantidadEtiquetas].linea = *CantidadListas;
+				*CantidadEtiquetas+=1;	
+		}
 	} //FIN DE LECTURA ARCHIVO 
 	
-	
-	
-	//~ printf("///////%d\n",*CantidadListas);
-	//~ instrucciones[3].arreglo[1].cadena="ZX";
-
-	//~ lista L1 = crearLista();
-	//~ L1 = append(L1,0,"L1,1");
-	//~ L1 = append(L1,0,"L1,2");
-	//~ L1 = append(L1,0,"L1,3");
-	//~ instrucciones = appendLista(L1,instrucciones,CantidadListas);
-	
-	
-	//~ lista L2 = crearLista();
-	//~ L2 = append(L2,1,"L2,1");
-	
-	//~ L1.arreglo[0].cadena = "XC";
-	//~ instrucciones = appendLista(L1,instrucciones,CantidadListas);
-
-	//~ lista L3 = crearLista();
-	//~ L3 = append(L3,0,"L3,1");
-	//~ L3 = append(L3,0,"L3,2");
-	//~ L3 = append(L3,0,"L3,3");
-	//~ L3 = append(L3,0,"L3,4"); 
-	
-	
-	//~ instrucciones = appendLista(L3,instrucciones,CantidadListas);
-
-	
 	mostrarListaEnlazada(instrucciones,*CantidadListas);
-	
-	//~ lista * instrucciones = (lista *) calloc(sizeof(lista),50);
-    //~ int * CantidadListas = calloc(sizeof(int),1);
-    
-	
-	
+	mostrarEtiquetas(etiquetas,*CantidadEtiquetas);
 	fclose(entrada);
 
-	
-	//////////////////////////////////////////////
-	//~ FILE * salida = fopen("salida.csv", "w+");
 
+	//Ejecucion del programa
+	ejecutarPrograma(instrucciones, *CantidadListas,etiquetas, *CantidadEtiquetas);
 	
-	
-	//~ lista * instrucciones = (lista *) calloc(sizeof(lista),20);
-	
-    //~ int * CantidadListas = calloc(sizeof(int),1);
-    //~ printf("PROBANDING\n");
-    //~ char * palabra = "A";
-	//~ lista L1 = crearLista();
-	//~ L1 = append(L1, 0, palabra);
-	//~ L1 = append(L1, 1, "B");
-	//~ L1 = append(L1, 2, "C");
-	//~ L1 = append(L1, 3, "D");
-	//~ printf("PROBANDING\n");
-	//~ lista L2 = crearLista();
-	//~ L2 = append(L2, 0, "W");
-	//~ L2 = append(L2, 1, "X");
-	//~ L2 = append(L2, 2, "Y");
-	
-	//~ printf("PROBANDING\n");
-	
-    //~ instrucciones = appendLista(L1, instrucciones, CantidadListas);
-    
-    //~ printf("AsD");
-    //~ instrucciones = appendLista(L2, instrucciones, CantidadListas);
-    //~ mostrarListaEnlazada(instrucciones,*CantidadListas);
+	print_register();
 }
 
 

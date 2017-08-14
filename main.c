@@ -5,12 +5,11 @@
 #include <string.h>	
 #include "funciones.c"
 #include "cons.c"
-#include "operaciones.c"
 
 int main()
 {  
 	
-	//Archivo();
+	Archivo();
 
     return 0;
 }
