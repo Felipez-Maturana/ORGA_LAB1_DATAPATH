@@ -115,8 +115,8 @@ int tipoInstruccion(char * instruccion)
 		return 3;
 	}
 	else if (strcmp(instruccion, "lw") == 0 || 
-			 strcmp(instruccion, "sw") == 0
-			 ) 
+			 strcmp(instruccion, "sw") == 0 || 
+			 strcmp(instruccion, "la") == 0)
 	{
 		return 2;
 	}
@@ -131,8 +131,10 @@ int tipoInstruccion(char * instruccion)
 	{
 		return 0;
 	}
-	
-	return -1;
+	else
+	{
+		return -1;
+	}
 }
 
 
@@ -185,10 +187,33 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		{
 			bgt(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena, etiquetas, cantidadEtiquetas);
 		}
+		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "beq")== 0)
+		{
+			beq(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena, etiquetas, cantidadEtiquetas);
+		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "j")== 0)
 		{
 			j(instrucciones[PC].arreglo[1].cadena, etiquetas, cantidadEtiquetas);
-			
+		}
+		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "jal")== 0)
+		{
+			jal(instrucciones[PC].arreglo[1].cadena, etiquetas, cantidadEtiquetas);
+		}
+		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "jr")== 0)
+		{
+			jr(instrucciones[PC].arreglo[1].cadena, etiquetas, cantidadEtiquetas);
+		}
+		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "la")== 0)
+		{
+			la(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena);
+		}
+		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "lw")== 0)
+		{
+			lw(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena);
+		}
+		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "sw")== 0)
+		{
+			sw(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena);
 		}
 		else
 		{
@@ -205,7 +230,7 @@ void Archivo()
 	
 	//Inicializando lista enlazada
 	lista * instrucciones;
-	instrucciones = (lista *) calloc(sizeof(lista),20);	
+	instrucciones = (lista *) calloc(sizeof(lista),40);	
 
 	//Inicializando etiquetas;
 	etiqueta * etiquetas;
@@ -216,7 +241,7 @@ void Archivo()
 	int * CantidadEtiquetas = calloc(sizeof(int),1);
 	
 	FILE * entrada;
-	if( (entrada = fopen("iterativo.asm", "r")) == NULL)
+	if( (entrada = fopen("simple.asm", "r")) == NULL)
 	{
 		printf("Error! Archivo no existe");
 		exit(1);
@@ -230,7 +255,10 @@ void Archivo()
 	lista L1 = crearLista();
 	L1 = insertar(L1,0,0,"");
 	L1 = insertar(L1,1,1,"");
-	//~ lista L2 = crearLista();
+	lista L2 = crearLista();
+	L2 = insertar(L2,0,0,"");
+	L2 = insertar(L2,1,1,"");
+	L2 = insertar(L2,2,2,"");
 	lista L3 = crearLista();
 	L3 = insertar(L3,0,0,"");
 	L3 = insertar(L3,1,1,"");
@@ -241,9 +269,11 @@ void Archivo()
 	
 	while(fscanf(entrada,"%s",op1) != EOF)
 	{
+		//~ printf("%s\n",op1);
 		if(tipoInstruccion(op1)==-1)
 		{
-			printf("ERROR 404: La instruccion %s no se encuentra\n", op1);
+			mostrarListaEnlazada(instrucciones,*CantidadListas);
+			printf("ERROR 404: La instruccion |%s| no se encuentra\n", op1);
 			exit(2);
 		}
 		else if(tipoInstruccion(op1)==3)
@@ -283,6 +313,32 @@ void Archivo()
 		
 			instrucciones[*CantidadListas] = L3;
 			*CantidadListas+=1;	
+		}
+		else if(tipoInstruccion(op1)==2)
+		{
+			fscanf(entrada,"%s %s",op2,op3);
+			if(strchr(op2,'$'))
+			{
+				strncpy(op2,&op2[1],strlen(op2));
+			}
+			//Se elimina la ','
+			op2[strlen(op2)-1]=0;
+			
+			char * m1 = malloc(sizeof(char) * strlen(op1));
+			strcpy(m1,op1);
+			char * m2 = malloc(sizeof(char) * strlen(op2));
+			strcpy(m2,op2);
+			char * m3 = malloc(sizeof(char) * strlen(op3));
+			strcpy(m3,op3);
+			
+			L2.linea = *CantidadListas;
+			L2.arreglo[0].cadena = m1;
+			L2.arreglo[1].cadena = m2;
+			L2.arreglo[2].cadena = m3;
+		
+			instrucciones[*CantidadListas] = L2;
+			*CantidadListas+=1;
+			
 		}
 		else if(tipoInstruccion(op1)==1)
 		{
@@ -324,7 +380,7 @@ void Archivo()
 	//Ejecucion del programa
 	ejecutarPrograma(instrucciones, *CantidadListas,etiquetas, *CantidadEtiquetas);
 	
-	print_register();
+	//~ print_register();
 }
 
 
