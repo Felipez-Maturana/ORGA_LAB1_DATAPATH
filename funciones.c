@@ -67,7 +67,14 @@ void mostrarListaEnlazada(lista * ListaEnlazada, int CantidadElementos)
 		//~ printf("PC: %d \t|",ListaEnlazada[i].linea);
 		for (j = 0; j < ListaEnlazada[i].fin ; j++)
 		{
-			printf("%s|\t",ListaEnlazada[i].arreglo[j].cadena); 
+			if(strlen(ListaEnlazada[i].arreglo[j].cadena)>=6)
+			{
+				printf("%s|",ListaEnlazada[i].arreglo[j].cadena);
+			}
+			else
+			{
+				printf("%s\t|",ListaEnlazada[i].arreglo[j].cadena);
+			}
 		}
 		printf("\n");
 	}
@@ -220,6 +227,93 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 			printf("INSTRUCCION NO ENCONTRADA %s",instrucciones[PC].arreglo[0].cadena);
 		}
 	} 	
+}
+
+lista * lineasDeControl()
+{
+	FILE * LControl;
+	if( (LControl = fopen("lineasControl2.txt", "r")) == NULL)
+	{
+		printf("Error! Archivo de lineas de control no existe");
+		exit(1);
+	}
+	//Se declara la lista enlazada que contendrA las lineas de control recibidas por pantalla.
+	lista * lineasControl;
+	lineasControl = (lista *) calloc(sizeof(lista),40);	
+	
+	//Se declaran la lista de caracteres que contendran los valores correspondientes
+	//a la columna en el archivo de entrada
+	char * RegDst = calloc(sizeof(char),6);
+	char * Jump = calloc(sizeof(char),6);
+	char * Branch = calloc(sizeof(char),6);
+	char * MemRead = calloc(sizeof(char),7);
+	char * MemToReg = calloc(sizeof(char),8);
+	char * ALUOp = calloc(sizeof(char),6);
+	char * MemWrite = calloc(sizeof(char),8);
+	char * ALUSrc = calloc(sizeof(char),6);
+	char * RegWrite = calloc(sizeof(char),7);
+	
+	//Se declara la lista de largo 9, correspondiente 
+	//La cual contendrA en cada posicion los 'strings' declarados
+	//Anteriormente
+	lista L1 = crearLista();
+	L1 = insertar(L1,0,0,"");
+	L1 = insertar(L1,1,1,"");
+	L1 = insertar(L1,2,2,"");
+	L1 = insertar(L1,3,3,"");
+	L1 = insertar(L1,4,4,"");
+	L1 = insertar(L1,5,5,"");
+	L1 = insertar(L1,6,6,"");
+	L1 = insertar(L1,7,7,"");
+	L1 = insertar(L1,8,8,"");
+
+	
+	
+	int i=0;
+	//Se lee el archivo de entrada hasta la ultima linea
+	while(fscanf(LControl,"%s %s %s %s %s %s %s %s %s",RegDst,Jump,Branch,MemRead,MemToReg,ALUOp,MemWrite,ALUSrc,RegWrite) != EOF)
+	{
+		//Se declaran variables temporales para los strings
+		char * m1 = malloc(sizeof(char) * strlen(RegDst));
+		char * m2 = malloc(sizeof(char) * strlen(Jump));
+		char * m3 = malloc(sizeof(char) * strlen(Branch));
+		char * m4 = malloc(sizeof(char) * strlen(MemRead));
+		char * m5 = malloc(sizeof(char) * strlen(MemToReg));
+		char * m6 = malloc(sizeof(char) * strlen(ALUOp));
+		char * m7 = malloc(sizeof(char) * strlen(MemWrite));
+		char * m8 = malloc(sizeof(char) * strlen(ALUSrc));
+		char * m9 = malloc(sizeof(char) * strlen(RegWrite));
+		//Se copia el valor contenido en la columna correspondiente
+		//en los strings temporales
+		strcpy(m1,RegDst);
+		strcpy(m2,Jump);
+		strcpy(m3,Branch);
+		strcpy(m4,MemRead);
+		strcpy(m5,MemToReg);
+		strcpy(m6,ALUOp);
+		strcpy(m7,MemWrite);
+		strcpy(m8,ALUSrc);
+		strcpy(m9,RegWrite);
+		
+		//Se asigna la posicion correspondiente.
+		L1.linea = i;
+		L1.arreglo[0].cadena = m1;
+		L1.arreglo[1].cadena = m2;
+		L1.arreglo[2].cadena = m3;
+		L1.arreglo[3].cadena = m4;
+		L1.arreglo[4].cadena = m5;
+		L1.arreglo[5].cadena = m6;
+		L1.arreglo[6].cadena = m7;
+		L1.arreglo[7].cadena = m8;
+		L1.arreglo[8].cadena = m9;
+		//Se agrega la nueva lista a nuestra lista de listas
+		lineasControl[i] = L1;
+		i+=1;
+	}
+	mostrarListaEnlazada(lineasControl,i-1);
+	//se retorna la lista de lista
+	return lineasControl;
+	
 }
 
 
@@ -380,6 +474,7 @@ void Archivo()
 	//Ejecucion del programa
 	//~ ejecutarPrograma(instrucciones, *CantidadListas,etiquetas, *CantidadEtiquetas);
 	
+	lineasDeControl();
 	
 	print_register();
 	getchar();
