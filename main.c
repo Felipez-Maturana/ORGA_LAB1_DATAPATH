@@ -42,8 +42,15 @@ int main()
 	ra = calloc(sizeof(int),1);
 
 	
-	Archivo();
+	//~ char ** asd = addi("t1", "t2", 2);
+	//~ int i=0;
+	//~ for (i = 0; i < 8; i++)
+	//~ {
+		//~ printf("%d %s\n",i,asd[i]);
+	//~ }
 	
+	
+	Archivo();
 	getchar();
 	exit(0);	
 	//~ *( get_adress("s5") + 1) = 3;

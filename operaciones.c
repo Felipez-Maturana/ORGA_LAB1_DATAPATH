@@ -560,18 +560,45 @@ void print_register()
 	printf("ra: %d\n", *ra);
 }
 
-void addi(char * reg1, char * reg2, int value)
+char ** addi(char * reg1, char * reg2, int value)
 {
 	int res = get_value(reg2) + value;
 	set_value(reg1,res);
 	PC+=1;
+	
+	char **lineasControl = (char**)malloc(9*sizeof(char*));
+	lineasControl[0] = "1";//RegDst        
+	lineasControl[1] = "0";//Jump
+	lineasControl[2] = "0";//Branch
+	lineasControl[3] = "0";//MemRead
+	lineasControl[4] = "0";//MemToReg
+	lineasControl[5] = "010";//ALUOp
+	lineasControl[6] = "0";//MemWrite
+	lineasControl[7] = "0";//ALUSrc
+	lineasControl[8] = "1";//RegWrite
+	//~ char *lineasControl[9] = { "1","0","0","0","010","0","0","1"};
+	
+	return lineasControl;
 }
 
-void subi(char * reg1, char * reg2, int value)
+char ** subi(char * reg1, char * reg2, int value)
 {
 	int res = get_value(reg2) - value;
 	set_value(reg1,res);
 	PC+=1;
+	
+	char **lineasControl = (char**)malloc(9*sizeof(char*));
+	lineasControl[0] = "1";//RegDst        
+	lineasControl[1] = "0";//Jump
+	lineasControl[2] = "0";//Branch
+	lineasControl[3] = "0";//MemRead
+	lineasControl[4] = "0";//MemToReg
+	lineasControl[5] = "110";//ALUOp
+	lineasControl[6] = "0";//MemWrite
+	lineasControl[7] = "0";//ALUSrc
+	lineasControl[8] = "1";//RegWrite
+	
+	return lineasControl;
 }
 
 void add(char * reg1, char * reg2, char * reg3)
@@ -588,11 +615,24 @@ void sub(char * reg1, char * reg2, char * reg3)
 	PC+=1;
 }
 
-void mul(char * reg1, char * reg2, char * reg3)
+char ** mul(char * reg1, char * reg2, char * reg3)
 {
 	int res = get_value(reg2) * get_value(reg3);
 	set_value(reg1,res);
 	PC+=1;
+	
+	char **lineasControl = (char**)malloc(9*sizeof(char*));
+	lineasControl[0] = "1";//RegDst        
+	lineasControl[1] = "0";//Jump
+	lineasControl[2] = "0";//Branch
+	lineasControl[3] = "0";//MemRead
+	lineasControl[4] = "0";//MemToReg
+	lineasControl[5] = "110";//ALUOp
+	lineasControl[6] = "0";//MemWrite
+	lineasControl[7] = "0";//ALUSrc
+	lineasControl[8] = "1";//RegWrite
+	
+	return lineasControl;
 }
 
 void divi(char * reg1, char * reg2, char * reg3)
@@ -640,20 +680,36 @@ void bgt(char * reg1, char * reg2, char * etiqueta1, etiqueta * etiquetas, int c
 
 //Salto condicional, saltarA a la direccion PC de la etiqueta en caso de que 
 //reg1 > reg2, de lo contrario PC = PC + 1
-void beq(char * reg1, char * reg2, char * etiqueta1, etiqueta * etiquetas, int cantidadEtiquetas)
+char ** beq(char * reg1, char * reg2, char * etiqueta1, etiqueta * etiquetas, int cantidadEtiquetas)
 {
 	int a = get_value(reg1);
 	int b = get_value(reg2); 
-	printf(" %d = %d ??\n",a,b);
-	printf("\\\\\\\\\\\%s %d == %s %d -> PC: %d\n",reg1,a,reg2,b,PC);
+	//~ printf(" %d = %d ??\n",a,b);
+	//~ printf("\\\\\\\\\\\%s %d == %s %d -> PC: %d\n",reg1,a,reg2,b,PC);
+	
+	char **lineasControl = (char**)malloc(9*sizeof(char*));
+	lineasControl[0] = "X";//RegDst        
+	lineasControl[1] = "0";//Jump
+	lineasControl[2] = "1";//Branch
+	lineasControl[3] = "0";//MemRead
+	lineasControl[4] = "X";//MemToReg
+	lineasControl[5] = "110";//ALUOp
+	lineasControl[6] = "0";//MemWrite
+	lineasControl[7] = "0";//ALUSrc
+	lineasControl[8] = "0";//RegWrite
+	
+	
+	
 	if( a == b )
 	{
 		printf("\\\\\\\\\\\%s %d == %s %d -> PC: %d\n",reg1,a,reg2,b,PC);  
 		PC = get_PC_etiqueta(etiqueta1, etiquetas, cantidadEtiquetas);
+		return lineasControl;
 	}
 	else
 	{
 		PC+=1;
+		return lineasControl;
 	}
 }
 
@@ -661,13 +717,26 @@ void beq(char * reg1, char * reg2, char * etiqueta1, etiqueta * etiquetas, int c
 
 
 
-void j(char * etiqueta1, etiqueta * etiquetas, int cantidadEtiquetas)
+char ** j(char * etiqueta1, etiqueta * etiquetas, int cantidadEtiquetas)
 {
 	//~ printf("inicio del salto incondicional %d", PC);
 	//~ printf("buscando la etiqueta 
 	PC = get_PC_etiqueta(etiqueta1, etiquetas, cantidadEtiquetas);
 	//~ printf("fin del salto incondicional %d",PC);
 	
+	
+	
+	char **lineasControl = (char**)malloc(9*sizeof(char*));
+	lineasControl[0] = "X";//RegDst        
+	lineasControl[1] = "1";//Jump
+	lineasControl[2] = "0";//Branch
+	lineasControl[3] = "0";//MemRead
+	lineasControl[4] = "X";//MemToReg
+	lineasControl[5] = "110";//ALUOp
+	lineasControl[6] = "0";//MemWrite
+	lineasControl[7] = "0";//ALUSrc
+	lineasControl[8] = "0";//RegWrite
+	return lineasControl;
 }
 
 //la	$t0, var1

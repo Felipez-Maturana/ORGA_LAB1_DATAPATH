@@ -2,6 +2,43 @@
 #include <stdio.h>
 #include "operaciones.c"
 
+void compararSalida(lista * lineasControl, char ** lineasControlReal, int linea)
+{
+	int i=0;
+	lista L1 = crearLista();
+	for (i = 0; i < 9; i++)
+	{
+		if(strcmp(lineasControl[linea].arreglo[linea].cadena,lineasControlReal[linea])==0)
+		{
+			L1 = insertar(L1,i,i,lineasControlReal[linea]);
+		}
+		else if(strcmp(lineasControl[linea].arreglo[linea].cadena,"X")==0)
+		{
+			L1 = insertar(L1,i,i,lineasControl[linea].arreglo[linea].cadena);
+		}
+		else
+		{
+			L1 = insertar(L1,i,i,lineasControlReal[linea]);
+		}
+	}
+	for (i = 0; i < 9; i++)
+	{
+		printf("%d %s %s %s %s %s %s %s %s %s\n",i, L1.arreglo[0].cadena,L1.arreglo[1].cadena,L1.arreglo[2].cadena,L1.arreglo[3].cadena,L1.arreglo[4].cadena,L1.arreglo[5].cadena,L1.arreglo[6].cadena,L1.arreglo[7].cadena,L1.arreglo[8].cadena);
+	}
+	
+	
+	
+	
+	
+	//~ L1 = insertar(L1,1,1,"");
+	//~ L1 = insertar(L1,2,2,"");
+	//~ L1 = insertar(L1,3,3,"");
+	//~ L1 = insertar(L1,4,4,"");
+	//~ L1 = insertar(L1,5,5,"");
+	//~ L1 = insertar(L1,6,6,"");
+	//~ L1 = insertar(L1,7,7,"");
+	//~ L1 = insertar(L1,8,8,"");
+}
 
 //Funcion que se encarga de mostrar las cadenas de texto de los 
 //elementos de la estructura lista
@@ -160,7 +197,6 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		/////BEGIN DEBUG MODE//////
 		printf("PC: %d\n",PC);
 		mostrarCadenas(instrucciones[PC]);
-		
 		//////END DEBUG MODE///////
 		if(strcmp(instrucciones[PC].arreglo[0].cadena, "addi") == 0)
 		{
@@ -472,7 +508,7 @@ void Archivo()
 
 
 	//Ejecucion del programa
-	//~ ejecutarPrograma(instrucciones, *CantidadListas,etiquetas, *CantidadEtiquetas);
+	ejecutarPrograma(instrucciones, *CantidadListas,etiquetas, *CantidadEtiquetas);
 	
 	lineasDeControl();
 	
