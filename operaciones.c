@@ -830,7 +830,6 @@ void jal(char * etiqueta1, etiqueta * etiquetas, int cantidadEtiquetas)
 	//Se asigna el valor del PC de acuerdo a la etiqueta o registro
 	// a la cual se realiza el salto incondicional
 	PC = get_PC_etiqueta(etiqueta1, etiquetas, cantidadEtiquetas);
-		
 }
 
 

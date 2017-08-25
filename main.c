@@ -44,8 +44,8 @@ int main()
 	
 	Archivo();
 	
-	
-	
+	getchar();
+	exit(0);	
 	//~ *( get_adress("s5") + 1) = 3;
 	
 	//~ printf("%p %d\n",get_adress("s5")+1,*(s5 + 1));  
