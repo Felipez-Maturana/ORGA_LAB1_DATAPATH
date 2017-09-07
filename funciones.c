@@ -2,9 +2,10 @@
 #include <stdio.h>
 #include "operaciones.c"
 
-void compararSalida(lista * lineasControl, char ** lineasControlReal, int linea)
+void compararSalida(FILE * Salida, lista * lineasControl, char ** lineasControlReal, int linea)
 {
 	int i=0;
+	int correcto=1;
 	lista L1 = crearLista();
 	for (i = 0; i < 9; i++)
 	{
@@ -28,11 +29,18 @@ void compararSalida(lista * lineasControl, char ** lineasControlReal, int linea)
 		else
 		{
 			L1 = insertar(L1,i,i,lineasControlReal[i]);
+			correcto=0;
 			//~ L1 = insertar(L1,i,i,"asd");
 		}
 	}
-
-	printf("%s %s %s %s %s %s %s %s %s\n",L1.arreglo[0].cadena,L1.arreglo[1].cadena,L1.arreglo[2].cadena,L1.arreglo[3].cadena,L1.arreglo[4].cadena,L1.arreglo[5].cadena,L1.arreglo[6].cadena,L1.arreglo[7].cadena,L1.arreglo[8].cadena);
+	if(correcto == 1)
+	{
+		fprintf(Salida,"Correcto\n");
+	}
+	else
+	{
+		fprintf(Salida,"Error,%s,%s,%s,%s,%s,%s,%s,%s,%s\n",L1.arreglo[0].cadena,L1.arreglo[1].cadena,L1.arreglo[2].cadena,L1.arreglo[3].cadena,L1.arreglo[4].cadena,L1.arreglo[5].cadena,L1.arreglo[6].cadena,L1.arreglo[7].cadena,L1.arreglo[8].cadena);	
+	}
 	
 	
 	//~ printf("lineas de control real\n");
@@ -212,6 +220,7 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		printf("Error! No se puede escribir");
 		exit(1);
 	}
+	fprintf(Salida,"Estado,RegDst,Jump,Branch,MemRead,MemToRg,ALUOp,MemWr,ALUSrc,RegWrite\n");
 	
 	char ** lineaControlActual = (char**)malloc(9*sizeof(char*));
 	lista instruccionesUsadas = crearLista();
@@ -236,12 +245,12 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		if(strcmp(instrucciones[PC].arreglo[0].cadena, "addi") == 0)
 		{
 			lineaControlActual = addi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, atoi(instrucciones[PC].arreglo[3].cadena));
-			compararSalida(lineasControlEntrada, lineaControlActual,posicion); 
+			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion); 
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "subi") == 0)
 		{
 			lineaControlActual = subi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, atoi(instrucciones[PC].arreglo[3].cadena) );
-			compararSalida(lineasControlEntrada, lineaControlActual,posicion); 
+			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion); 
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "add")== 0)
 		{
@@ -254,7 +263,7 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "mul")== 0)
 		{
 			lineaControlActual = mul(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
-			compararSalida(lineasControlEntrada, lineaControlActual,posicion); 
+			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion); 
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "div")== 0)
 		{
@@ -271,12 +280,12 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "beq")== 0)
 		{
 			lineaControlActual = beq(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena, etiquetas, cantidadEtiquetas);
-			compararSalida(lineasControlEntrada, lineaControlActual,posicion); 
+			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion); 
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "j")== 0)
 		{
 			lineaControlActual = j(instrucciones[PC].arreglo[1].cadena, etiquetas, cantidadEtiquetas);
-			compararSalida(lineasControlEntrada, lineaControlActual,posicion); 
+			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion); 
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "jal")== 0)
 		{
