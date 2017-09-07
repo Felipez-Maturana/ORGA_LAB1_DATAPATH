@@ -8,15 +8,21 @@ void compararSalida(lista * lineasControl, char ** lineasControlReal, int linea)
 	lista L1 = crearLista();
 	for (i = 0; i < 9; i++)
 	{
+		printf("%s==%s?",lineasControl[linea].arreglo[i].cadena,lineasControlReal[i]);
 		if(strcmp(lineasControl[linea].arreglo[i].cadena,lineasControlReal[i])==0)
 		{
-			L1 = insertar(L1,i,i,lineasControlReal[i]);
+			//~ L1 = insertar(L1,i,i,lineasControlReal[i]);
+			
+			L1 = insertar(L1,i,i,"-");
 			//~ L1 = insertar(L1,i,i,"asdf");
 			
 		}
 		else if(strcmp(lineasControl[linea].arreglo[i].cadena,"X")==0)
 		{
-			L1 = insertar(L1,i,i,lineasControl[linea].arreglo[i].cadena);
+			//~ L1 = insertar(L1,i,i,lineasControl[linea].arreglo[i].cadena);
+			
+			L1 = insertar(L1,i,i,"-");
+			
 			//~ L1 = insertar(L1,i,i,"asdfg");
 		}
 		else
@@ -200,6 +206,13 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 {
 	//~ mostrarListaEnlazada(instrucciones,cantidadInstrucciones);
 	//~ mostrarEtiquetas(etiquetas,cantidadEtiquetas);
+	FILE * Salida;
+	if( (Salida = fopen("SalidaSalida.csv", "w")) == NULL)
+	{
+		printf("Error! No se puede escribir");
+		exit(1);
+	}
+	
 	char ** lineaControlActual = (char**)malloc(9*sizeof(char*));
 	lista instruccionesUsadas = crearLista();
 	int posicion;
@@ -218,7 +231,7 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		{
 			instruccionesUsadas = append(instruccionesUsadas,0,instrucciones[PC].arreglo[0].cadena);
 		}
-		posicion = buscarSTR(instruccionesUsadas, instrucciones[PC].arreglo[0].cadena);
+		posicion = buscarSTR(instruccionesUsadas, instrucciones[PC].arreglo[0].cadena)+1;
 		
 		if(strcmp(instrucciones[PC].arreglo[0].cadena, "addi") == 0)
 		{

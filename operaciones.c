@@ -567,14 +567,14 @@ char ** addi(char * reg1, char * reg2, int value)
 	PC+=1;
 	
 	char **lineasControl = (char**)malloc(9*sizeof(char*));
-	lineasControl[0] = "1";//RegDst        
+	lineasControl[0] = "0";//RegDst        
 	lineasControl[1] = "0";//Jump
 	lineasControl[2] = "0";//Branch
 	lineasControl[3] = "0";//MemRead
 	lineasControl[4] = "0";//MemToReg
-	lineasControl[5] = "010";//ALUOp
+	lineasControl[5] = "00";//ALUOp
 	lineasControl[6] = "0";//MemWrite
-	lineasControl[7] = "0";//ALUSrc
+	lineasControl[7] = "1";//ALUSrc
 	lineasControl[8] = "1";//RegWrite
 	//~ char *lineasControl[9] = { "1","0","0","0","010","0","0","1"};
 	
@@ -588,14 +588,14 @@ char ** subi(char * reg1, char * reg2, int value)
 	PC+=1;
 	
 	char **lineasControl = (char**)malloc(9*sizeof(char*));
-	lineasControl[0] = "1";//RegDst        
+	lineasControl[0] = "0";//RegDst        
 	lineasControl[1] = "0";//Jump
 	lineasControl[2] = "0";//Branch
 	lineasControl[3] = "0";//MemRead
 	lineasControl[4] = "0";//MemToReg
-	lineasControl[5] = "110";//ALUOp
+	lineasControl[5] = "00";//ALUOp
 	lineasControl[6] = "0";//MemWrite
-	lineasControl[7] = "0";//ALUSrc
+	lineasControl[7] = "1";//ALUSrc
 	lineasControl[8] = "1";//RegWrite
 	
 	return lineasControl;
@@ -627,7 +627,7 @@ char ** mul(char * reg1, char * reg2, char * reg3)
 	lineasControl[2] = "0";//Branch
 	lineasControl[3] = "0";//MemRead
 	lineasControl[4] = "0";//MemToReg
-	lineasControl[5] = "110";//ALUOp
+	lineasControl[5] = "10";//ALUOp
 	lineasControl[6] = "0";//MemWrite
 	lineasControl[7] = "0";//ALUSrc
 	lineasControl[8] = "1";//RegWrite
@@ -693,7 +693,7 @@ char ** beq(char * reg1, char * reg2, char * etiqueta1, etiqueta * etiquetas, in
 	lineasControl[2] = "1";//Branch
 	lineasControl[3] = "0";//MemRead
 	lineasControl[4] = "X";//MemToReg
-	lineasControl[5] = "110";//ALUOp
+	lineasControl[5] = "01";//ALUOp
 	lineasControl[6] = "0";//MemWrite
 	lineasControl[7] = "0";//ALUSrc
 	lineasControl[8] = "0";//RegWrite
@@ -732,7 +732,7 @@ char ** j(char * etiqueta1, etiqueta * etiquetas, int cantidadEtiquetas)
 	lineasControl[2] = "0";//Branch
 	lineasControl[3] = "0";//MemRead
 	lineasControl[4] = "X";//MemToReg
-	lineasControl[5] = "110";//ALUOp
+	lineasControl[5] = "10";//ALUOp
 	lineasControl[6] = "0";//MemWrite
 	lineasControl[7] = "0";//ALUSrc
 	lineasControl[8] = "0";//RegWrite
