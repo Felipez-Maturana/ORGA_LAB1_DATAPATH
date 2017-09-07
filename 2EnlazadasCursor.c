@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <string.h>
 #include "structs.h"
 
 #define NULO -1
@@ -47,6 +48,8 @@ void mostrar(lista actual) {
 
 
 
+
+
 lista insertar(lista actual, int elemento, int posicion, char * cadena)
 {
     int auxiliar = actual.cabeza;
@@ -88,6 +91,17 @@ int buscar(lista actual, int valor) {
     int indice = actual.cabeza;
     while(indice != NULO) {
         if(actual.arreglo[indice].elemento == valor) {
+            return indice;
+        }
+        indice = actual.arreglo[indice].siguiente;
+    }
+    return NULO;
+}
+
+int buscarSTR(lista actual, char * valor) {
+    int indice = actual.cabeza;
+    while(indice != NULO) {
+        if( strcmp(actual.arreglo[indice].cadena, valor)==0) {
             return indice;
         }
         indice = actual.arreglo[indice].siguiente;

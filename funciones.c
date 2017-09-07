@@ -58,7 +58,7 @@ void mostrarCadenas(lista L1)
 	int i=0;
 	while(i<L1.fin)
 	{
-		printf("%s ",L1.arreglo[i].cadena);
+		printf("-%s-",L1.arreglo[i].cadena);
 		i++;
 	}
 	printf("\n");
@@ -365,7 +365,7 @@ lista * lineasDeControl()
 		lineasControl[i] = L1;
 		i+=1;
 	}
-	mostrarListaEnlazada(lineasControl,i-1);
+	mostrarListaEnlazada(lineasControl,i);
 	//se retorna la lista de lista
 	return lineasControl;
 	
