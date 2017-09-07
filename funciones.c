@@ -8,23 +8,34 @@ void compararSalida(lista * lineasControl, char ** lineasControlReal, int linea)
 	lista L1 = crearLista();
 	for (i = 0; i < 9; i++)
 	{
-		if(strcmp(lineasControl[linea].arreglo[linea].cadena,lineasControlReal[linea])==0)
+		if(strcmp(lineasControl[linea].arreglo[i].cadena,lineasControlReal[i])==0)
 		{
-			L1 = insertar(L1,i,i,lineasControlReal[linea]);
+			L1 = insertar(L1,i,i,lineasControlReal[i]);
+			//~ L1 = insertar(L1,i,i,"asdf");
+			
 		}
-		else if(strcmp(lineasControl[linea].arreglo[linea].cadena,"X")==0)
+		else if(strcmp(lineasControl[linea].arreglo[i].cadena,"X")==0)
 		{
-			L1 = insertar(L1,i,i,lineasControl[linea].arreglo[linea].cadena);
+			L1 = insertar(L1,i,i,lineasControl[linea].arreglo[i].cadena);
+			//~ L1 = insertar(L1,i,i,"asdfg");
 		}
 		else
 		{
-			L1 = insertar(L1,i,i,lineasControlReal[linea]);
+			L1 = insertar(L1,i,i,lineasControlReal[i]);
+			//~ L1 = insertar(L1,i,i,"asd");
 		}
 	}
-	for (i = 0; i < 9; i++)
-	{
-		printf("%d %s %s %s %s %s %s %s %s %s\n",i, L1.arreglo[0].cadena,L1.arreglo[1].cadena,L1.arreglo[2].cadena,L1.arreglo[3].cadena,L1.arreglo[4].cadena,L1.arreglo[5].cadena,L1.arreglo[6].cadena,L1.arreglo[7].cadena,L1.arreglo[8].cadena);
-	}
+
+	printf("%s %s %s %s %s %s %s %s %s\n",L1.arreglo[0].cadena,L1.arreglo[1].cadena,L1.arreglo[2].cadena,L1.arreglo[3].cadena,L1.arreglo[4].cadena,L1.arreglo[5].cadena,L1.arreglo[6].cadena,L1.arreglo[7].cadena,L1.arreglo[8].cadena);
+	
+	
+	//~ printf("lineas de control real\n");
+	//~ for (i = 0; i < 9; i++)
+	//~ {
+		//~ printf("%s",lineasControlReal[i]); 
+	//~ }
+	//~ printf("\n");
+	
 	
 	
 	
@@ -185,14 +196,16 @@ int tipoInstruccion(char * instruccion)
 
 
 
-void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta * etiquetas, int cantidadEtiquetas)
+void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta * etiquetas, int cantidadEtiquetas, lista * lineasControlEntrada)
 {
 	//~ mostrarListaEnlazada(instrucciones,cantidadInstrucciones);
 	//~ mostrarEtiquetas(etiquetas,cantidadEtiquetas);
+	char ** lineaControlActual = (char**)malloc(9*sizeof(char*));
 	
-	
+	int linea = 1;
 	while( PC < cantidadInstrucciones )
 	{
+		
 		
 		/////BEGIN DEBUG MODE//////
 		printf("PC: %d\n",PC);
@@ -200,11 +213,13 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		//////END DEBUG MODE///////
 		if(strcmp(instrucciones[PC].arreglo[0].cadena, "addi") == 0)
 		{
-			addi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, atoi(instrucciones[PC].arreglo[3].cadena) );
+			lineaControlActual = addi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, atoi(instrucciones[PC].arreglo[3].cadena));
+			compararSalida(lineasControlEntrada, lineaControlActual,linea); 
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "subi") == 0)
 		{
-			subi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, atoi(instrucciones[PC].arreglo[3].cadena) );
+			lineaControlActual = subi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, atoi(instrucciones[PC].arreglo[3].cadena) );
+			compararSalida(lineasControlEntrada, lineaControlActual,linea); 
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "add")== 0)
 		{
@@ -216,7 +231,8 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "mul")== 0)
 		{
-			mul(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
+			lineaControlActual = mul(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
+			compararSalida(lineasControlEntrada, lineaControlActual,linea); 
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "div")== 0)
 		{
@@ -232,11 +248,13 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "beq")== 0)
 		{
-			beq(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena, etiquetas, cantidadEtiquetas);
+			lineaControlActual = beq(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena, etiquetas, cantidadEtiquetas);
+			compararSalida(lineasControlEntrada, lineaControlActual,linea); 
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "j")== 0)
 		{
-			j(instrucciones[PC].arreglo[1].cadena, etiquetas, cantidadEtiquetas);
+			lineaControlActual = j(instrucciones[PC].arreglo[1].cadena, etiquetas, cantidadEtiquetas);
+			compararSalida(lineasControlEntrada, lineaControlActual,linea); 
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "jal")== 0)
 		{
@@ -262,6 +280,7 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		{
 			printf("INSTRUCCION NO ENCONTRADA %s",instrucciones[PC].arreglo[0].cadena);
 		}
+		linea +=1;
 	} 	
 }
 
@@ -506,11 +525,14 @@ void Archivo()
 	mostrarEtiquetas(etiquetas,*CantidadEtiquetas);
 	fclose(entrada);
 
-
-	//Ejecucion del programa
-	ejecutarPrograma(instrucciones, *CantidadListas,etiquetas, *CantidadEtiquetas);
 	
-	lineasDeControl();
+	//Obtener lineas de control desde el archivo de entrada
+	lista * lineasControlEntrada = lineasDeControl();
+	
+	//Ejecucion del programa
+	ejecutarPrograma(instrucciones, *CantidadListas,etiquetas, *CantidadEtiquetas, lineasControlEntrada);
+	
+	
 	
 	print_register();
 	getchar();

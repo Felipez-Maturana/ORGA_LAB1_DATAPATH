@@ -11,7 +11,7 @@
 lista crearLista() {
     lista nueva;
     int i;
-    for(i = 0; i < 8; i++) {
+    for(i = 0; i < 9; i++) {
     nueva.arreglo[i].siguiente = LIBRE;
     }
     nueva.cabeza = NULO;
