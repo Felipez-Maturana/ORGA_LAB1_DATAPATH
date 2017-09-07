@@ -50,19 +50,19 @@ int main()
 	//~ }
 	
 	
-	//~ Archivo();
-	//~ getchar();
-	//~ exit(0);	
+	Archivo();
+	getchar();
+	exit(0);	
 	
 	
-	lista prueba = crearLista();
-	prueba = append(prueba, 0, "addi");
-	prueba = append(prueba, 0, "sub");
-	prueba = append(prueba, 0, "mul");
+	//~ lista prueba = crearLista();
+	//~ prueba = append(prueba, 0, "addi");
+	//~ prueba = append(prueba, 0, "sub");
+	//~ prueba = append(prueba, 0, "mul");
 	
-	printf("%d",buscarSTR(prueba, "sakdjas"));
+	//~ printf("%d",buscarSTR(prueba, "sakdjas"));
 	
-	mostrarCadenas(prueba);
+	//~ mostrarCadenas(prueba);
 	
 	//~ *( get_adress("s5") + 1) = 3;
 	
