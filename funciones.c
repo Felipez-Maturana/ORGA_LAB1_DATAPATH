@@ -5,11 +5,11 @@
 void compararSalida(FILE * Salida, lista * lineasControl, char ** lineasControlReal, int linea)
 {
 	int i=0;
-	int correcto=1;
+	int correcto = 1;
 	lista L1 = crearLista();
 	for (i = 0; i < 9; i++)
 	{
-		printf("%s==%s?",lineasControl[linea].arreglo[i].cadena,lineasControlReal[i]);
+		printf("%d %s==%s?",i,lineasControl[linea].arreglo[i].cadena,lineasControlReal[i]);
 		if(strcmp(lineasControl[linea].arreglo[i].cadena,lineasControlReal[i])==0)
 		{
 			//~ L1 = insertar(L1,i,i,lineasControlReal[i]);
@@ -18,7 +18,7 @@ void compararSalida(FILE * Salida, lista * lineasControl, char ** lineasControlR
 			//~ L1 = insertar(L1,i,i,"asdf");
 			
 		}
-		else if(strcmp(lineasControl[linea].arreglo[i].cadena,"X")==0)
+		else if(strcmp(lineasControlReal[i],"X")==0)
 		{
 			//~ L1 = insertar(L1,i,i,lineasControl[linea].arreglo[i].cadena);
 			
@@ -28,7 +28,12 @@ void compararSalida(FILE * Salida, lista * lineasControl, char ** lineasControlR
 		}
 		else
 		{
-			L1 = insertar(L1,i,i,lineasControlReal[i]);
+			//~ char * asd = malloc(sizeof(char)*5);
+			//~ strcpy(asd,lineasControl[linea].arreglo[i].cadena);
+			//~ asd = lineasControl[linea].arreglo[i].cadena;
+			//~ printf("posicion %d %s!=%s\n",i,lineasControlReal[i],lineasControl[linea].arreglo[i].cadena);
+			L1 = insertar(L1,i,i,lineasControl[linea].arreglo[i].cadena);
+			//~ L1 = insertar(L1,i,i,asd);
 			correcto=0;
 			//~ L1 = insertar(L1,i,i,"asd");
 		}
@@ -217,7 +222,7 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 	FILE * Salida;
 	if( (Salida = fopen("SalidaSalida.csv", "w")) == NULL)
 	{
-		printf("Error! No se puede escribir");
+		printf("Error! No se puede escribir, verifica que no tengas abierto el archivo");
 		exit(1);
 	}
 	fprintf(Salida,"Estado,RegDst,Jump,Branch,MemRead,MemToRg,ALUOp,MemWr,ALUSrc,RegWrite\n");

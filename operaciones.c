@@ -593,7 +593,7 @@ char ** subi(char * reg1, char * reg2, int value)
 	lineasControl[2] = "0";//Branch
 	lineasControl[3] = "0";//MemRead
 	lineasControl[4] = "0";//MemToReg
-	lineasControl[5] = "00";//ALUOp
+	lineasControl[5] = "01";//ALUOp
 	lineasControl[6] = "0";//MemWrite
 	lineasControl[7] = "1";//ALUSrc
 	lineasControl[8] = "1";//RegWrite
@@ -614,7 +614,7 @@ void sub(char * reg1, char * reg2, char * reg3)
 	set_value(reg1,res);
 	PC+=1;
 }
-
+//Tipo R
 char ** mul(char * reg1, char * reg2, char * reg3)
 {
 	int res = get_value(reg2) * get_value(reg3);
@@ -729,12 +729,12 @@ char ** j(char * etiqueta1, etiqueta * etiquetas, int cantidadEtiquetas)
 	char **lineasControl = (char**)malloc(9*sizeof(char*));
 	lineasControl[0] = "X";//RegDst        
 	lineasControl[1] = "1";//Jump
-	lineasControl[2] = "0";//Branch
+	lineasControl[2] = "X";//Branch
 	lineasControl[3] = "0";//MemRead
 	lineasControl[4] = "X";//MemToReg
 	lineasControl[5] = "10";//ALUOp
 	lineasControl[6] = "0";//MemWrite
-	lineasControl[7] = "0";//ALUSrc
+	lineasControl[7] = "X";//ALUSrc
 	lineasControl[8] = "0";//RegWrite
 	return lineasControl;
 }
