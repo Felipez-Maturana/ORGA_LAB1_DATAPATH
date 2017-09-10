@@ -110,6 +110,8 @@ int buscarSTR(lista actual, char * valor) {
 }
 
 
+
+
 int obtener(lista actual, int posicion) {
     int cuenta = 0;
     int indice = actual.cabeza;

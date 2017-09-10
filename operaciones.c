@@ -601,18 +601,42 @@ char ** subi(char * reg1, char * reg2, int value)
 	return lineasControl;
 }
 
-void add(char * reg1, char * reg2, char * reg3)
+char ** add(char * reg1, char * reg2, char * reg3)
 {
 	int res = get_value(reg2) + get_value(reg3);
 	set_value(reg1,res);
 	PC+=1;
+	
+	char **lineasControl = (char**)malloc(9*sizeof(char*));
+	lineasControl[0] = "1";//RegDst        
+	lineasControl[1] = "0";//Jump
+	lineasControl[2] = "0";//Branch
+	lineasControl[3] = "0";//MemRead
+	lineasControl[4] = "0";//MemToReg
+	lineasControl[5] = "10";//ALUOp
+	lineasControl[6] = "0";//MemWrite
+	lineasControl[7] = "0";//ALUSrc
+	lineasControl[8] = "1";//RegWrite
+	return lineasControl;
 }
 
-void sub(char * reg1, char * reg2, char * reg3)
+char ** sub(char * reg1, char * reg2, char * reg3)
 {
 	int res = get_value(reg2) - get_value(reg3);
 	set_value(reg1,res);
 	PC+=1;
+	
+	char **lineasControl = (char**)malloc(9*sizeof(char*));
+	lineasControl[0] = "1";//RegDst        
+	lineasControl[1] = "0";//Jump
+	lineasControl[2] = "0";//Branch
+	lineasControl[3] = "0";//MemRead
+	lineasControl[4] = "0";//MemToReg
+	lineasControl[5] = "10";//ALUOp
+	lineasControl[6] = "0";//MemWrite
+	lineasControl[7] = "0";//ALUSrc
+	lineasControl[8] = "1";//RegWrite
+	return lineasControl;
 }
 //Tipo R
 char ** mul(char * reg1, char * reg2, char * reg3)
@@ -635,11 +659,25 @@ char ** mul(char * reg1, char * reg2, char * reg3)
 	return lineasControl;
 }
 
-void divi(char * reg1, char * reg2, char * reg3)
+//Tipo R
+char ** divi(char * reg1, char * reg2, char * reg3)
 {
 	int res = get_value(reg2) / get_value(reg3);
 	set_value(reg1,res);
 	PC+=1;
+	
+	char **lineasControl = (char**)malloc(9*sizeof(char*));
+	lineasControl[0] = "1";//RegDst        
+	lineasControl[1] = "0";//Jump
+	lineasControl[2] = "0";//Branch
+	lineasControl[3] = "0";//MemRead
+	lineasControl[4] = "0";//MemToReg
+	lineasControl[5] = "10";//ALUOp
+	lineasControl[6] = "0";//MemWrite
+	lineasControl[7] = "0";//ALUSrc
+	lineasControl[8] = "1";//RegWrite
+	
+	return lineasControl;
 }
 
 //Salto condicional, saltarA a la direccion PC de la etiqueta en caso de que 
@@ -648,10 +686,9 @@ void blt(char * reg1, char * reg2, char * etiqueta1, etiqueta * etiquetas, int c
 {
 	int a = get_value(reg1);
 	int b = get_value(reg2); 
-	//~ printf(" %d < %d ??\n",a,b);
 	if( a < b) 
 	{
-		printf("\\\\\\\\\\\%s %d > %s %d -> PC: %d\n",reg1,a,reg2,b,PC);
+		//~ printf("\\\\\\\\\\\%s %d > %s %d -> PC: %d\n",reg1,a,reg2,b,PC);
 		PC = get_PC_etiqueta(etiqueta1, etiquetas, cantidadEtiquetas);
 	}
 	else
@@ -669,7 +706,7 @@ void bgt(char * reg1, char * reg2, char * etiqueta1, etiqueta * etiquetas, int c
 	//~ printf(" %d > %d ??\n",a,b);
 	if( a > b )
 	{
-		printf("\\\\\\\\\\\%s %d > %s %d -> PC: %d\n",reg1,a,reg2,b,PC);  
+		//~ printf("\\\\\\\\\\\%s %d > %s %d -> PC: %d\n",reg1,a,reg2,b,PC);  
 		PC = get_PC_etiqueta(etiqueta1, etiquetas, cantidadEtiquetas);
 	}
 	else
@@ -702,7 +739,7 @@ char ** beq(char * reg1, char * reg2, char * etiqueta1, etiqueta * etiquetas, in
 	
 	if( a == b )
 	{
-		printf("\\\\\\\\\\\%s %d == %s %d -> PC: %d\n",reg1,a,reg2,b,PC);  
+		//~ printf("\\\\\\\\\\\%s %d == %s %d -> PC: %d\n",reg1,a,reg2,b,PC);  
 		PC = get_PC_etiqueta(etiqueta1, etiquetas, cantidadEtiquetas);
 		return lineasControl;
 	}
@@ -732,7 +769,7 @@ char ** j(char * etiqueta1, etiqueta * etiquetas, int cantidadEtiquetas)
 	lineasControl[2] = "X";//Branch
 	lineasControl[3] = "0";//MemRead
 	lineasControl[4] = "X";//MemToReg
-	lineasControl[5] = "10";//ALUOp
+	lineasControl[5] = "X";//ALUOp
 	lineasControl[6] = "0";//MemWrite
 	lineasControl[7] = "X";//ALUSrc
 	lineasControl[8] = "0";//RegWrite
@@ -743,7 +780,7 @@ char ** j(char * etiqueta1, etiqueta * etiquetas, int cantidadEtiquetas)
 //copy RAM address of var1 (presumably a label defined in the program) into register $t0
 void la(char * reg1, char * op3)
 {
-	printf("--------la %s %s\n",reg1, op3);
+	//~ printf("--------la %s %s\n",reg1, op3);
 	int offset = 0;
 	int largoNum=0;
 	if(op3[0]!='(' )
@@ -759,7 +796,7 @@ void la(char * reg1, char * op3)
 	char * temp2= malloc(sizeof(char)*strlen(op3));
 	 //~ = calloc(sizeof(char),strlen(op3);
 	strcpy(temp2,op3);
-	printf("--------la %s %d%s\n",reg1,offset, temp2); 
+	//~ printf("--------la %s %d%s\n",reg1,offset, temp2); 
 	//Se elimina el ($ 
 	strncpy(temp2,&temp2[largoNum+2],strlen(temp2));
 	temp2[strlen(temp2)-1]=0;
@@ -771,9 +808,9 @@ void la(char * reg1, char * op3)
 	//~ strncpy(op3,&op3[largoNum+2],strlen(op3));
 	//~ op3[strlen(op3)-1]=0;
 	
-	printf("la setting offset = %d\n",offset);
+	//~ printf("la setting offset = %d\n",offset);
 	//importante
-	//~ set_adress(reg1, get_adress(op3), offset );
+	set_adress(reg1, get_adress(op3), offset );
 	
 	set_value(reg1, get_value(temp2));
 	
@@ -786,9 +823,9 @@ void la(char * reg1, char * op3)
 //or in other words
 //lw	$t2, ($t0)
 //load word at RAM address contained in $t0 into $t2
-void lw(char * reg1, char * op3)
+char ** lw(char * reg1, char * op3)
 {
-	printf("--------lw %s %s\n",reg1, op3); 
+	//~ printf("--------lw %s %s\n",reg1, op3); 
 	//inicializando las variables
 	int offset = 0;
 	int largoNum=0;
@@ -813,7 +850,7 @@ void lw(char * reg1, char * op3)
 	//Se elimina el ($ 
 	strncpy(temp2,&temp2[largoNum+2],strlen(temp2));
 	temp2[strlen(temp2)-1]=0;
-	printf("--------lw %s %d%s\n",reg1,offset, temp2);
+	//~ printf("--------lw %s %d%s\n",reg1,offset, temp2);
 	
 	//~ //Se elimina el ($ 
 	//~ strncpy(op3,&op3[largoNum+2],strlen(op3));
@@ -824,6 +861,19 @@ void lw(char * reg1, char * op3)
 	//~ getchar();
 	//Se da paso a la ejecuciOn de la siguiente linea de cOdigo
 	PC +=1;
+	
+	
+	char **lineasControl = (char**)malloc(9*sizeof(char*));
+	lineasControl[0] = "0";//RegDst        
+	lineasControl[1] = "0";//Jump
+	lineasControl[2] = "0";//Branch
+	lineasControl[3] = "1";//MemRead
+	lineasControl[4] = "1";//MemToReg
+	lineasControl[5] = "00";//ALUOp
+	lineasControl[6] = "0";//MemWrite
+	lineasControl[7] = "1";//ALUSrc
+	lineasControl[8] = "1";//RegWrite
+	return lineasControl;
 }
 
 
@@ -831,14 +881,14 @@ void lw(char * reg1, char * op3)
 //or in other words
 //sw	$t2, ($t0)
 //store word in register $t2 into RAM at address contained in $t0
-void sw(char * reg1, char * op3)
+char ** sw(char * reg1, char * op3)
 {
 	//inicializando las variables
 	int offset = 0;
 	int largoNum=0;
 	//Se verifica que el primer caracter no sea un espacio, de ser asI
 	//Es que posee offset
-	printf("--------sw %s %s\n",reg1, op3);
+	//~ printf("--------sw %s %s\n",reg1, op3);
 	if(op3[0]!='(' )
 	{
 		while(op3[largoNum]!='(')
@@ -857,10 +907,10 @@ void sw(char * reg1, char * op3)
 	//Se elimina el ($ 
 	strncpy(temp2,&temp2[largoNum+2],strlen(temp2));
 	temp2[strlen(temp2)-1]=0;
-	printf("--------sw %s %d%s\n",reg1,offset, temp2); 
+	//~ printf("--------sw %s %d%s\n",reg1,offset, temp2); 
 	
-	printf("adress -%s: %p, offset |%d\n", temp2, get_adress(temp2), offset);
-	printf("adress + offset/4 %p = |%d\n", (get_adress(temp2) + offset/4), *(get_adress(temp2) + offset/4) );
+	//~ printf("adress -%s: %p, offset |%d\n", temp2, get_adress(temp2), offset);
+	//~ printf("adress + offset/4 %p = |%d\n", (get_adress(temp2) + offset/4), *(get_adress(temp2) + offset/4) );
 	//~ int * tempAdress = calloc(sizeof(int),1);
 	//~ printf("asd1");
 	//~ tempAdress =  get_adress(temp2) + offset/4;
@@ -870,13 +920,13 @@ void sw(char * reg1, char * op3)
 	//~ getchar();
 	//~ printf("me cai? %d\n",PC);
 	int offsetOPT = offset/4;
-	printf("antes de caerme\n");
-	printf("'%s', '%s'\n",reg1,temp2);
-	printf("'%p', '%p'\n",get_adress(temp2),get_adress(temp2)+offsetOPT);
-	printf("'%d', '%d'\n",*get_adress(temp2),*(get_adress(temp2)+offsetOPT));
+	//~ printf("antes de caerme\n");
+	//~ printf("'%s', '%s'\n",reg1,temp2);
+	//~ printf("'%p', '%p'\n",get_adress(temp2),get_adress(temp2)+offsetOPT);
+	//~ printf("'%d', '%d'\n",*get_adress(temp2),*(get_adress(temp2)+offsetOPT));
 	//~ print_register();	
 	*(get_adress(temp2) + offsetOPT) = *(get_adress(reg1));
-	printf("despues de caerme\n");
+	//~ printf("despues de caerme\n");
 	
 	
 	
@@ -884,6 +934,20 @@ void sw(char * reg1, char * op3)
 	
 	//Se da paso a la ejecuciOn de la siguiente linea de cOdigo
 	PC +=1;
+	
+	
+	
+	char **lineasControl = (char**)malloc(9*sizeof(char*));
+	lineasControl[0] = "X";//RegDst        
+	lineasControl[1] = "0";//Jump
+	lineasControl[2] = "0";//Branch
+	lineasControl[3] = "0";//MemRead
+	lineasControl[4] = "X";//MemToReg
+	lineasControl[5] = "00";//ALUOp
+	lineasControl[6] = "1";//MemWrite
+	lineasControl[7] = "1";//ALUSrc
+	lineasControl[8] = "0";//RegWrite
+	return lineasControl;
 }
 
 

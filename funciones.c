@@ -9,7 +9,7 @@ void compararSalida(FILE * Salida, lista * lineasControl, char ** lineasControlR
 	lista L1 = crearLista();
 	for (i = 0; i < 9; i++)
 	{
-		printf("%d %s==%s?",i,lineasControl[linea].arreglo[i].cadena,lineasControlReal[i]);
+		//~ printf("%d %s==%s?\n",linea,lineasControl[linea].arreglo[i].cadena,lineasControlReal[i]);
 		if(strcmp(lineasControl[linea].arreglo[i].cadena,lineasControlReal[i])==0)
 		{
 			//~ L1 = insertar(L1,i,i,lineasControlReal[i]);
@@ -28,11 +28,41 @@ void compararSalida(FILE * Salida, lista * lineasControl, char ** lineasControlR
 		}
 		else
 		{
-			//~ char * asd = malloc(sizeof(char)*5);
+			//~ char * asd = malloc(sizeof(char)*2);
+			
 			//~ strcpy(asd,lineasControl[linea].arreglo[i].cadena);
 			//~ asd = lineasControl[linea].arreglo[i].cadena;
+			//~ printf("se va a insertar %s en vez de %s en la posicion %d\n",lineasControl[linea].arreglo[i].cadena,lineasControlReal[i],i);
 			//~ printf("posicion %d %s!=%s\n",i,lineasControlReal[i],lineasControl[linea].arreglo[i].cadena);
-			L1 = insertar(L1,i,i,lineasControl[linea].arreglo[i].cadena);
+			//~ L1 = insertar(L1,i,i,lineasControl[linea].arreglo[i].cadena);
+			
+			
+			
+			if (i!=5)
+			{
+				L1 = insertar(L1,i,i,lineasControl[linea].arreglo[i].cadena);
+			}
+			else
+			{
+				
+				//~ L1.arreglo[i].cadena = calloc(sizeof(char),2);
+				char * special = calloc(sizeof(char),3);
+				special[0] = lineasControl[linea].arreglo[i].cadena[0];
+				special[1] = lineasControl[linea].arreglo[i].cadena[1];
+				lineasControl[linea].arreglo[i].cadena = special;
+				L1 = insertar(L1,i,i,lineasControl[linea].arreglo[i].cadena);
+
+				//~ printf("%c+%c\n",lineasControl[linea].arreglo[i].cadena[0],lineasControl[linea].arreglo[i].cadena[1]);
+				//~ strcpy(L1.arreglo[i].cadena, lineasControl[linea].arreglo[i].cadena[0]+"");
+				//~ printf("el largo es de %d\n",strlen(lineasControl[linea].arreglo[i].cadena));
+				//~ printf("=%c=%c\n",lineasControl[linea].arreglo[i].cadena[0],lineasControl[linea].arreglo[i].cadena[1]);
+				//~ char * special = malloc(sizeof(char)*3);
+				//~ sprintf(special,"%c%c",lineasControl[linea].arreglo[i].cadena[0],lineasControl[linea].arreglo[i].cadena[1]);
+				//~ strcpy(L1.arreglo[i].cadena,special);
+			}
+			
+			
+			
 			//~ L1 = insertar(L1,i,i,asd);
 			correcto=0;
 			//~ L1 = insertar(L1,i,i,"asd");
@@ -44,7 +74,7 @@ void compararSalida(FILE * Salida, lista * lineasControl, char ** lineasControlR
 	}
 	else
 	{
-		fprintf(Salida,"Error,%s,%s,%s,%s,%s,%s,%s,%s,%s\n",L1.arreglo[0].cadena,L1.arreglo[1].cadena,L1.arreglo[2].cadena,L1.arreglo[3].cadena,L1.arreglo[4].cadena,L1.arreglo[5].cadena,L1.arreglo[6].cadena,L1.arreglo[7].cadena,L1.arreglo[8].cadena);	
+		fprintf(Salida,"Error\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\n",L1.arreglo[0].cadena,L1.arreglo[1].cadena,L1.arreglo[2].cadena,L1.arreglo[3].cadena,L1.arreglo[4].cadena,L1.arreglo[5].cadena,L1.arreglo[6].cadena,L1.arreglo[7].cadena,L1.arreglo[8].cadena);	
 	}
 	
 	
@@ -220,15 +250,15 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 	//~ mostrarListaEnlazada(instrucciones,cantidadInstrucciones);
 	//~ mostrarEtiquetas(etiquetas,cantidadEtiquetas);
 	FILE * Salida;
-	if( (Salida = fopen("SalidaSalida.csv", "w")) == NULL)
+	if( (Salida = fopen("SalidaSalida.txt", "w")) == NULL)
 	{
 		printf("Error! No se puede escribir, verifica que no tengas abierto el archivo");
 		exit(1);
 	}
-	fprintf(Salida,"Estado,RegDst,Jump,Branch,MemRead,MemToRg,ALUOp,MemWr,ALUSrc,RegWrite\n");
+	fprintf(Salida,"Estado\tRegDst\t\tJump\tBranch\tMemRead\tMemToRg\tALUOp\tMemWr\tALUSrc\tRegWrite\n");
 	
 	char ** lineaControlActual = (char**)malloc(9*sizeof(char*));
-	lista instruccionesUsadas = crearLista();
+	//~ lista instruccionesUsadas = crearLista();
 	int posicion;
 	int linea = 1;
 	while( PC < cantidadInstrucciones )
@@ -236,16 +266,17 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		
 		
 		/////BEGIN DEBUG MODE//////
-		printf("PC: %d\n",PC);
-		mostrarCadenas(instrucciones[PC]);
+		//~ printf("PC: %d\n",PC);
+		//~ mostrarCadenas(instrucciones[PC]);
 		//////END DEBUG MODE///////
 		
-		posicion = buscarSTR(instruccionesUsadas, instrucciones[PC].arreglo[0].cadena);
-		if(posicion == -1)
-		{
-			instruccionesUsadas = append(instruccionesUsadas,0,instrucciones[PC].arreglo[0].cadena);
-		}
-		posicion = buscarSTR(instruccionesUsadas, instrucciones[PC].arreglo[0].cadena)+1;
+		posicion=PC+1;
+		//~ posicion = buscarSTR(instruccionesUsadas, instrucciones[PC].arreglo[0].cadena);
+		//~ if(posicion == -1)
+		//~ {
+			//~ instruccionesUsadas = append(instruccionesUsadas,0,instrucciones[PC].arreglo[0].cadena);
+		//~ }
+		//~ posicion = buscarSTR(instruccionesUsadas, instrucciones[PC].arreglo[0].cadena)+1;
 		
 		if(strcmp(instrucciones[PC].arreglo[0].cadena, "addi") == 0)
 		{
@@ -259,11 +290,13 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "add")== 0)
 		{
-			add(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
+			lineaControlActual = add(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
+			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "sub")== 0)
 		{
-			sub(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
+			lineaControlActual = sub(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
+			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "mul")== 0)
 		{
@@ -272,7 +305,8 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "div")== 0)
 		{
-			divi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
+			lineaControlActual = divi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
+			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion); 
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "blt")== 0)
 		{
@@ -306,11 +340,14 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "lw")== 0)
 		{
-			lw(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena);
+			lineaControlActual = lw(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena);
+			//~ printf("LW comparando PC = %d\n",PC);
+			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "sw")== 0)
 		{
-			sw(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena);
+			lineaControlActual = sw(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena);
+			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else
 		{
@@ -323,7 +360,7 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 lista * lineasDeControl()
 {
 	FILE * LControl;
-	if( (LControl = fopen("lineasControl2.txt", "r")) == NULL)
+	if( (LControl = fopen("lineasControl1v2.txt", "r")) == NULL)
 	{
 		printf("Error! Archivo de lineas de control no existe");
 		exit(1);
@@ -408,10 +445,11 @@ lista * lineasDeControl()
 }
 
 
-void Archivo()
+void Archivo(char * nombreArchivoEntradaLControl, char * nombreArchivoEntradaInstrucciones, char * nombreArchivoSalida)
 {
-	//~ int numLinea = 0;
 	
+	//Obtener lineas de control desde el archivo de entrada
+	lista * lineasControlEntrada = lineasDeControl();
 	
 	//Inicializando lista enlazada
 	lista * instrucciones;
@@ -426,7 +464,7 @@ void Archivo()
 	int * CantidadEtiquetas = calloc(sizeof(int),1);
 	
 	FILE * entrada;
-	if( (entrada = fopen("mipsEjemplo2.asm", "r")) == NULL)
+	if( (entrada = fopen("mipsEjemplo1v2.asm", "r")) == NULL)
 	{
 		printf("Error! Archivo no existe");
 		exit(1);
@@ -555,6 +593,7 @@ void Archivo()
 				etiquetas[*CantidadEtiquetas].linea = *CantidadListas;
 				*CantidadEtiquetas+=1;	
 		}
+		lineasControlEntrada[*CantidadListas -1].linea = *CantidadListas -1;
 	} //FIN DE LECTURA ARCHIVO 
 	
 	mostrarListaEnlazada(instrucciones,*CantidadListas);
@@ -562,8 +601,7 @@ void Archivo()
 	fclose(entrada);
 
 	
-	//Obtener lineas de control desde el archivo de entrada
-	lista * lineasControlEntrada = lineasDeControl();
+
 	
 	//Ejecucion del programa
 	ejecutarPrograma(instrucciones, *CantidadListas,etiquetas, *CantidadEtiquetas, lineasControlEntrada);

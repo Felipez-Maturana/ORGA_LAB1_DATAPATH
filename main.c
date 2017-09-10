@@ -42,37 +42,26 @@ int main()
 	ra = calloc(sizeof(int),1);
 
 	
-	//~ char ** asd = addi("t1", "t2", 2);
-	//~ int i=0;
-	//~ for (i = 0; i < 8; i++)
-	//~ {
-		//~ printf("%d %s\n",i,asd[i]);
-	//~ }
+	char * nombreArchivoEntradaLControl = calloc(sizeof(char),40);
+	char * nombreArchivoEntradaInstrucciones = calloc(sizeof(char),40);
+	char * nombreArchivoSalida = calloc(sizeof(char),40);
+	
+	printf("Ingrese el nombre del archivo (con extensiOn) de entrada que posee las lineas de control\n");
+	scanf("%s",nombreArchivoEntradaLControl);
+	
+	printf("Ingrese el nombre del archivo (con extensiOn) de entrada  que posee las instrucciones del programa\n");
+	scanf("%s",nombreArchivoEntradaInstrucciones);
+	
+	printf("Ingrese el nombre del archivo (con extension, preferencia .txt) de salida\n");
+	scanf("%s",nombreArchivoSalida);
 	
 	
-	Archivo();
-	getchar();
+	
+	
+	Archivo(nombreArchivoEntradaLControl, nombreArchivoEntradaInstrucciones, nombreArchivoSalida);
+	//~ getchar();
 	exit(0);	
-	
-	
-	//~ lista prueba = crearLista();
-	//~ prueba = append(prueba, 0, "addi");
-	//~ prueba = append(prueba, 0, "sub");
-	//~ prueba = append(prueba, 0, "mul");
-	
-	//~ printf("%d",buscarSTR(prueba, "sakdjas"));
-	
-	//~ mostrarCadenas(prueba);
-	
-	//~ *( get_adress("s5") + 1) = 3;
-	
-	//~ printf("%p %d\n",get_adress("s5")+1,*(s5 + 1));  
-	//~ *( get_adress("sp") + 2) = 20;
-	
-	//~ printf("%p %d\n",get_adress("s5"),*(get_adress("s5")));  
-	
-	
-	
+		
     return 0;
 }
  
