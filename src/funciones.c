@@ -245,17 +245,17 @@ int tipoInstruccion(char * instruccion)
 
 
 
-void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta * etiquetas, int cantidadEtiquetas, lista * lineasControlEntrada)
+void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta * etiquetas, int cantidadEtiquetas, lista * lineasControlEntrada, char * nombreArchivoSalida)
 {
 	//~ mostrarListaEnlazada(instrucciones,cantidadInstrucciones);
 	//~ mostrarEtiquetas(etiquetas,cantidadEtiquetas);
 	FILE * Salida;
-	if( (Salida = fopen("SalidaSalida.txt", "w")) == NULL)
+	if( (Salida = fopen(nombreArchivoSalida, "w")) == NULL)
 	{
 		printf("Error! No se puede escribir, verifica que no tengas abierto el archivo");
 		exit(1);
 	}
-	fprintf(Salida,"Estado\tRegDst\t\tJump\tBranch\tMemRead\tMemToRg\tALUOp\tMemWr\tALUSrc\tRegWrite\n");
+	fprintf(Salida,"Estado\t\tRegDst\t\tJump\t\tBranch\t\tMemRead\t\tMemToRg\t\tALUOp\t\tMemWr\t\tALUSrc\t\tRegWrite\n");
 	
 	char ** lineaControlActual = (char**)malloc(9*sizeof(char*));
 	//~ lista instruccionesUsadas = crearLista();
@@ -357,10 +357,10 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 	} 	
 }
 
-lista * lineasDeControl()
+lista * lineasDeControl(char * nombreArchivoEntradaLControl)
 {
 	FILE * LControl;
-	if( (LControl = fopen("lineasControl1v2.txt", "r")) == NULL)
+	if( (LControl = fopen(nombreArchivoEntradaLControl, "r")) == NULL)
 	{
 		printf("Error! Archivo de lineas de control no existe");
 		exit(1);
@@ -438,7 +438,7 @@ lista * lineasDeControl()
 		lineasControl[i] = L1;
 		i+=1;
 	}
-	mostrarListaEnlazada(lineasControl,i);
+	//~ mostrarListaEnlazada(lineasControl,i);
 	//se retorna la lista de lista
 	return lineasControl;
 	
@@ -449,7 +449,7 @@ void Archivo(char * nombreArchivoEntradaLControl, char * nombreArchivoEntradaIns
 {
 	
 	//Obtener lineas de control desde el archivo de entrada
-	lista * lineasControlEntrada = lineasDeControl();
+	lista * lineasControlEntrada = lineasDeControl(nombreArchivoEntradaLControl);
 	
 	//Inicializando lista enlazada
 	lista * instrucciones;
@@ -464,7 +464,7 @@ void Archivo(char * nombreArchivoEntradaLControl, char * nombreArchivoEntradaIns
 	int * CantidadEtiquetas = calloc(sizeof(int),1);
 	
 	FILE * entrada;
-	if( (entrada = fopen("mipsEjemplo1v2.asm", "r")) == NULL)
+	if( (entrada = fopen(nombreArchivoEntradaInstrucciones, "r")) == NULL)
 	{
 		printf("Error! Archivo no existe");
 		exit(1);
@@ -596,18 +596,18 @@ void Archivo(char * nombreArchivoEntradaLControl, char * nombreArchivoEntradaIns
 		lineasControlEntrada[*CantidadListas -1].linea = *CantidadListas -1;
 	} //FIN DE LECTURA ARCHIVO 
 	
-	mostrarListaEnlazada(instrucciones,*CantidadListas);
-	mostrarEtiquetas(etiquetas,*CantidadEtiquetas);
+	//~ mostrarListaEnlazada(instrucciones,*CantidadListas);
+	//~ mostrarEtiquetas(etiquetas,*CantidadEtiquetas);
 	fclose(entrada);
 
 	
 
 	
 	//Ejecucion del programa
-	ejecutarPrograma(instrucciones, *CantidadListas,etiquetas, *CantidadEtiquetas, lineasControlEntrada);
+	ejecutarPrograma(instrucciones, *CantidadListas,etiquetas, *CantidadEtiquetas, lineasControlEntrada, nombreArchivoSalida);
 	
 	
 	
-	print_register();
+	//~ print_register();
 	getchar();
 }
