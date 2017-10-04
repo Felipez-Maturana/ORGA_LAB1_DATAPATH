@@ -2,12 +2,12 @@
 #include "funciones.h"
 #include "structs.h"
 #include "cons.h"
-#include <string.h>	
+#include <string.h>
 #include "funciones.c"
 #include "cons.c"
 
 int main()
-{  
+{
 	zero = calloc(sizeof(int),1);
 	at = calloc(sizeof(int),1);
 	v0 = calloc(sizeof(int),1);
@@ -41,27 +41,33 @@ int main()
 	fp = calloc(sizeof(int),1);
 	ra = calloc(sizeof(int),1);
 
-	
+
 	char * nombreArchivoEntradaLControl = calloc(sizeof(char),40);
 	char * nombreArchivoEntradaInstrucciones = calloc(sizeof(char),40);
 	char * nombreArchivoSalida = calloc(sizeof(char),40);
-	
-	printf("Ingrese el nombre del archivo (con extensiOn) de entrada que posee las lineas de control\n");
-	scanf("%s",nombreArchivoEntradaLControl);
-	
-	printf("Ingrese el nombre del archivo (con extensiOn) de entrada  que posee las instrucciones del programa\n");
-	scanf("%s",nombreArchivoEntradaInstrucciones);
-	
-	printf("Ingrese el nombre del archivo (con extension, preferencia .txt) de salida\n");
-	scanf("%s",nombreArchivoSalida);
-	
-	
-	
-	
-	Archivo(nombreArchivoEntradaLControl, nombreArchivoEntradaInstrucciones, nombreArchivoSalida);
+
+	char * nombreArchivoEntradaRegistrosIniciales = calloc(sizeof(char),40);
+	nombreArchivoEntradaRegistrosIniciales = "inputRegistros.txt";
+
+	setValoresInicialesRegistro(nombreArchivoEntradaRegistrosIniciales);
+
+	// printf("Ingrese el nombre del archivo (con extensiOn) de entrada que posee las lineas de control\n");
+	// scanf("%s",nombreArchivoEntradaLControl);
+
+	// printf("Ingrese el nombre del archivo (con extensiOn) de entrada  que posee las instrucciones del programa\n");
+	// scanf("%s",nombreArchivoEntradaInstrucciones);
+
+	// printf("Ingrese el nombre del archivo (con extension, preferencia .txt) de salida\n");
+	// scanf("%s",nombreArchivoSalida);
+
+
+
+
+
+
+	// Archivo(nombreArchivoEntradaLControl, nombreArchivoEntradaInstrucciones, nombreArchivoSalida);
 	//~ getchar();
-	exit(0);	
-		
+	exit(0);
+
     return 0;
 }
- 

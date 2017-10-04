@@ -4,7 +4,7 @@ int * get_adress(char * nameReg)
 {
 	if (strcmp(nameReg,"zero") == 0)
 	{
-		return zero;		
+		return zero;
 	}
 	else if (strcmp(nameReg,"at") == 0)
 	{
@@ -61,6 +61,10 @@ int * get_adress(char * nameReg)
 	else if (strcmp(nameReg,"t6") == 0)
 	{
 		return t6;
+	}
+	else if (strcmp(nameReg,"t7") == 0)
+	{
+		return t7;
 	}
 	else if (strcmp(nameReg,"s0") == 0)
 	{
@@ -130,7 +134,7 @@ int get_value(char * nameReg)
 {
 	if (strcmp(nameReg,"zero") == 0)
 	{
-		return * zero;		
+		return * zero;
 	}
 	else if (strcmp(nameReg,"at") == 0)
 	{
@@ -187,6 +191,10 @@ int get_value(char * nameReg)
 	else if (strcmp(nameReg,"t6") == 0)
 	{
 		return * t6;
+	}
+	else if (strcmp(nameReg,"t7") == 0)
+	{
+		return * t7;
 	}
 	else if (strcmp(nameReg,"s0") == 0)
 	{
@@ -256,7 +264,7 @@ void set_value(char * nameReg, int value)
 {
 	if (strcmp(nameReg,"zero") == 0)
 	{
-		 *zero= value;		
+		 *zero= value;
 	}
 	else if (strcmp(nameReg,"at") == 0)
 	{
@@ -313,6 +321,10 @@ void set_value(char * nameReg, int value)
 	else if (strcmp(nameReg,"t6") == 0)
 	{
 		 *t6= value;
+	}
+	else if (strcmp(nameReg,"t7") == 0)
+	{
+		 *t7= value;
 	}
 	else if (strcmp(nameReg,"s0") == 0)
 	{
@@ -384,7 +396,7 @@ void set_adress(char * nameReg, int * adress, int offset)
 	offset=offset/4;
 	if (strcmp(nameReg,"zero") == 0)
 	{
-		 zero= adress + offset;		
+		 zero= adress + offset;
 	}
 	else if (strcmp(nameReg,"at") == 0)
 	{
@@ -441,6 +453,10 @@ void set_adress(char * nameReg, int * adress, int offset)
 	else if (strcmp(nameReg,"t6") == 0)
 	{
 		 t6= adress + offset;
+	}
+	else if (strcmp(nameReg,"t7") == 0)
+	{
+		 t7= adress + offset;
 	}
 	else if (strcmp(nameReg,"s0") == 0)
 	{
@@ -516,7 +532,7 @@ int get_PC_etiqueta(char * nombreEtiqueta,etiqueta * etiquetas, int cantidad)
 		if( strcmp(etiquetas[i].nombre,nombreEtiqueta)==0)
 		{
 			return etiquetas[i].linea;
-		} 
+		}
 	}
 	printf("No se ha encontrado la etiqueta %s\n",nombreEtiqueta);
 	printf("El programa se cerrarA...\n");
@@ -565,9 +581,9 @@ char ** addi(char * reg1, char * reg2, int value)
 	int res = get_value(reg2) + value;
 	set_value(reg1,res);
 	PC+=1;
-	
+
 	char **lineasControl = (char**)malloc(9*sizeof(char*));
-	lineasControl[0] = "0";//RegDst        
+	lineasControl[0] = "0";//RegDst
 	lineasControl[1] = "0";//Jump
 	lineasControl[2] = "0";//Branch
 	lineasControl[3] = "0";//MemRead
@@ -577,7 +593,7 @@ char ** addi(char * reg1, char * reg2, int value)
 	lineasControl[7] = "1";//ALUSrc
 	lineasControl[8] = "1";//RegWrite
 	//~ char *lineasControl[9] = { "1","0","0","0","010","0","0","1"};
-	
+
 	return lineasControl;
 }
 
@@ -586,9 +602,9 @@ char ** subi(char * reg1, char * reg2, int value)
 	int res = get_value(reg2) - value;
 	set_value(reg1,res);
 	PC+=1;
-	
+
 	char **lineasControl = (char**)malloc(9*sizeof(char*));
-	lineasControl[0] = "0";//RegDst        
+	lineasControl[0] = "0";//RegDst
 	lineasControl[1] = "0";//Jump
 	lineasControl[2] = "0";//Branch
 	lineasControl[3] = "0";//MemRead
@@ -597,7 +613,7 @@ char ** subi(char * reg1, char * reg2, int value)
 	lineasControl[6] = "0";//MemWrite
 	lineasControl[7] = "1";//ALUSrc
 	lineasControl[8] = "1";//RegWrite
-	
+
 	return lineasControl;
 }
 
@@ -606,9 +622,9 @@ char ** add(char * reg1, char * reg2, char * reg3)
 	int res = get_value(reg2) + get_value(reg3);
 	set_value(reg1,res);
 	PC+=1;
-	
+
 	char **lineasControl = (char**)malloc(9*sizeof(char*));
-	lineasControl[0] = "1";//RegDst        
+	lineasControl[0] = "1";//RegDst
 	lineasControl[1] = "0";//Jump
 	lineasControl[2] = "0";//Branch
 	lineasControl[3] = "0";//MemRead
@@ -625,9 +641,9 @@ char ** sub(char * reg1, char * reg2, char * reg3)
 	int res = get_value(reg2) - get_value(reg3);
 	set_value(reg1,res);
 	PC+=1;
-	
+
 	char **lineasControl = (char**)malloc(9*sizeof(char*));
-	lineasControl[0] = "1";//RegDst        
+	lineasControl[0] = "1";//RegDst
 	lineasControl[1] = "0";//Jump
 	lineasControl[2] = "0";//Branch
 	lineasControl[3] = "0";//MemRead
@@ -644,9 +660,9 @@ char ** mul(char * reg1, char * reg2, char * reg3)
 	int res = get_value(reg2) * get_value(reg3);
 	set_value(reg1,res);
 	PC+=1;
-	
+
 	char **lineasControl = (char**)malloc(9*sizeof(char*));
-	lineasControl[0] = "1";//RegDst        
+	lineasControl[0] = "1";//RegDst
 	lineasControl[1] = "0";//Jump
 	lineasControl[2] = "0";//Branch
 	lineasControl[3] = "0";//MemRead
@@ -655,7 +671,7 @@ char ** mul(char * reg1, char * reg2, char * reg3)
 	lineasControl[6] = "0";//MemWrite
 	lineasControl[7] = "0";//ALUSrc
 	lineasControl[8] = "1";//RegWrite
-	
+
 	return lineasControl;
 }
 
@@ -665,9 +681,9 @@ char ** divi(char * reg1, char * reg2, char * reg3)
 	int res = get_value(reg2) / get_value(reg3);
 	set_value(reg1,res);
 	PC+=1;
-	
+
 	char **lineasControl = (char**)malloc(9*sizeof(char*));
-	lineasControl[0] = "1";//RegDst        
+	lineasControl[0] = "1";//RegDst
 	lineasControl[1] = "0";//Jump
 	lineasControl[2] = "0";//Branch
 	lineasControl[3] = "0";//MemRead
@@ -676,17 +692,17 @@ char ** divi(char * reg1, char * reg2, char * reg3)
 	lineasControl[6] = "0";//MemWrite
 	lineasControl[7] = "0";//ALUSrc
 	lineasControl[8] = "1";//RegWrite
-	
+
 	return lineasControl;
 }
 
-//Salto condicional, saltarA a la direccion PC de la etiqueta en caso de que 
+//Salto condicional, saltarA a la direccion PC de la etiqueta en caso de que
 //reg1 < reg2, de lo contrario PC = PC + 1
 void blt(char * reg1, char * reg2, char * etiqueta1, etiqueta * etiquetas, int cantidadEtiquetas)
 {
 	int a = get_value(reg1);
-	int b = get_value(reg2); 
-	if( a < b) 
+	int b = get_value(reg2);
+	if( a < b)
 	{
 		//~ printf("\\\\\\\\\\\%s %d > %s %d -> PC: %d\n",reg1,a,reg2,b,PC);
 		PC = get_PC_etiqueta(etiqueta1, etiquetas, cantidadEtiquetas);
@@ -697,16 +713,16 @@ void blt(char * reg1, char * reg2, char * etiqueta1, etiqueta * etiquetas, int c
 	}
 }
 
-//Salto condicional, saltarA a la direccion PC de la etiqueta en caso de que 
+//Salto condicional, saltarA a la direccion PC de la etiqueta en caso de que
 //reg1 > reg2, de lo contrario PC = PC + 1
 void bgt(char * reg1, char * reg2, char * etiqueta1, etiqueta * etiquetas, int cantidadEtiquetas)
 {
 	int a = get_value(reg1);
-	int b = get_value(reg2); 
+	int b = get_value(reg2);
 	//~ printf(" %d > %d ??\n",a,b);
 	if( a > b )
 	{
-		//~ printf("\\\\\\\\\\\%s %d > %s %d -> PC: %d\n",reg1,a,reg2,b,PC);  
+		//~ printf("\\\\\\\\\\\%s %d > %s %d -> PC: %d\n",reg1,a,reg2,b,PC);
 		PC = get_PC_etiqueta(etiqueta1, etiquetas, cantidadEtiquetas);
 	}
 	else
@@ -715,17 +731,17 @@ void bgt(char * reg1, char * reg2, char * etiqueta1, etiqueta * etiquetas, int c
 	}
 }
 
-//Salto condicional, saltarA a la direccion PC de la etiqueta en caso de que 
+//Salto condicional, saltarA a la direccion PC de la etiqueta en caso de que
 //reg1 > reg2, de lo contrario PC = PC + 1
 char ** beq(char * reg1, char * reg2, char * etiqueta1, etiqueta * etiquetas, int cantidadEtiquetas)
 {
 	int a = get_value(reg1);
-	int b = get_value(reg2); 
+	int b = get_value(reg2);
 	//~ printf(" %d = %d ??\n",a,b);
 	//~ printf("\\\\\\\\\\\%s %d == %s %d -> PC: %d\n",reg1,a,reg2,b,PC);
-	
+
 	char **lineasControl = (char**)malloc(9*sizeof(char*));
-	lineasControl[0] = "X";//RegDst        
+	lineasControl[0] = "X";//RegDst
 	lineasControl[1] = "0";//Jump
 	lineasControl[2] = "1";//Branch
 	lineasControl[3] = "0";//MemRead
@@ -734,12 +750,12 @@ char ** beq(char * reg1, char * reg2, char * etiqueta1, etiqueta * etiquetas, in
 	lineasControl[6] = "0";//MemWrite
 	lineasControl[7] = "0";//ALUSrc
 	lineasControl[8] = "0";//RegWrite
-	
-	
-	
+
+
+
 	if( a == b )
 	{
-		//~ printf("\\\\\\\\\\\%s %d == %s %d -> PC: %d\n",reg1,a,reg2,b,PC);  
+		//~ printf("\\\\\\\\\\\%s %d == %s %d -> PC: %d\n",reg1,a,reg2,b,PC);
 		PC = get_PC_etiqueta(etiqueta1, etiquetas, cantidadEtiquetas);
 		return lineasControl;
 	}
@@ -757,14 +773,14 @@ char ** beq(char * reg1, char * reg2, char * etiqueta1, etiqueta * etiquetas, in
 char ** j(char * etiqueta1, etiqueta * etiquetas, int cantidadEtiquetas)
 {
 	//~ printf("inicio del salto incondicional %d", PC);
-	//~ printf("buscando la etiqueta 
+	//~ printf("buscando la etiqueta
 	PC = get_PC_etiqueta(etiqueta1, etiquetas, cantidadEtiquetas);
 	//~ printf("fin del salto incondicional %d",PC);
-	
-	
-	
+
+
+
 	char **lineasControl = (char**)malloc(9*sizeof(char*));
-	lineasControl[0] = "X";//RegDst        
+	lineasControl[0] = "X";//RegDst
 	lineasControl[1] = "1";//Jump
 	lineasControl[2] = "X";//Branch
 	lineasControl[3] = "0";//MemRead
@@ -796,24 +812,24 @@ void la(char * reg1, char * op3)
 	char * temp2= malloc(sizeof(char)*strlen(op3));
 	 //~ = calloc(sizeof(char),strlen(op3);
 	strcpy(temp2,op3);
-	//~ printf("--------la %s %d%s\n",reg1,offset, temp2); 
-	//Se elimina el ($ 
+	//~ printf("--------la %s %d%s\n",reg1,offset, temp2);
+	//Se elimina el ($
 	strncpy(temp2,&temp2[largoNum+2],strlen(temp2));
 	temp2[strlen(temp2)-1]=0;
-	
-	
-	
+
+
+
 	//~ //POSIBLE ERROR, REVISAR BIEN
-	//~ //Se elimina el ($ 
+	//~ //Se elimina el ($
 	//~ strncpy(op3,&op3[largoNum+2],strlen(op3));
 	//~ op3[strlen(op3)-1]=0;
-	
+
 	//~ printf("la setting offset = %d\n",offset);
 	//importante
 	set_adress(reg1, get_adress(op3), offset );
-	
+
 	set_value(reg1, get_value(temp2));
-	
+
 	//~ print_register();
 	//~ getchar();
 	PC +=1;
@@ -825,7 +841,7 @@ void la(char * reg1, char * op3)
 //load word at RAM address contained in $t0 into $t2
 char ** lw(char * reg1, char * op3)
 {
-	//~ printf("--------lw %s %s\n",reg1, op3); 
+	//~ printf("--------lw %s %s\n",reg1, op3);
 	//inicializando las variables
 	int offset = 0;
 	int largoNum=0;
@@ -842,29 +858,29 @@ char ** lw(char * reg1, char * op3)
 		//Se obtiene el valor del offset
 		offset = atoi(tempo);
 	}
-	
+
 	char * temp2= malloc(sizeof(char)*strlen(op3));
 	 //~ = calloc(sizeof(char),strlen(op3);
 	strcpy(temp2,op3);
-	
-	//Se elimina el ($ 
+
+	//Se elimina el ($
 	strncpy(temp2,&temp2[largoNum+2],strlen(temp2));
 	temp2[strlen(temp2)-1]=0;
 	//~ printf("--------lw %s %d%s\n",reg1,offset, temp2);
-	
-	//~ //Se elimina el ($ 
+
+	//~ //Se elimina el ($
 	//~ strncpy(op3,&op3[largoNum+2],strlen(op3));
 	//~ op3[strlen(op3)-1]=0;
-	
+
 	set_value(reg1, *(get_adress(temp2) + (offset/4)));
-	
+
 	//~ getchar();
 	//Se da paso a la ejecuciOn de la siguiente linea de cOdigo
 	PC +=1;
-	
-	
+
+
 	char **lineasControl = (char**)malloc(9*sizeof(char*));
-	lineasControl[0] = "0";//RegDst        
+	lineasControl[0] = "0";//RegDst
 	lineasControl[1] = "0";//Jump
 	lineasControl[2] = "0";//Branch
 	lineasControl[3] = "1";//MemRead
@@ -903,12 +919,12 @@ char ** sw(char * reg1, char * op3)
 	char * temp2= calloc(sizeof(char),strlen(op3));
 	 //~ = calloc(sizeof(char),strlen(op3);
 	strcpy(temp2,op3);
-	
-	//Se elimina el ($ 
+
+	//Se elimina el ($
 	strncpy(temp2,&temp2[largoNum+2],strlen(temp2));
 	temp2[strlen(temp2)-1]=0;
-	//~ printf("--------sw %s %d%s\n",reg1,offset, temp2); 
-	
+	//~ printf("--------sw %s %d%s\n",reg1,offset, temp2);
+
 	//~ printf("adress -%s: %p, offset |%d\n", temp2, get_adress(temp2), offset);
 	//~ printf("adress + offset/4 %p = |%d\n", (get_adress(temp2) + offset/4), *(get_adress(temp2) + offset/4) );
 	//~ int * tempAdress = calloc(sizeof(int),1);
@@ -924,21 +940,21 @@ char ** sw(char * reg1, char * op3)
 	//~ printf("'%s', '%s'\n",reg1,temp2);
 	//~ printf("'%p', '%p'\n",get_adress(temp2),get_adress(temp2)+offsetOPT);
 	//~ printf("'%d', '%d'\n",*get_adress(temp2),*(get_adress(temp2)+offsetOPT));
-	//~ print_register();	
+	//~ print_register();
 	*(get_adress(temp2) + offsetOPT) = *(get_adress(reg1));
 	//~ printf("despues de caerme\n");
-	
-	
-	
-	
-	
+
+
+
+
+
 	//Se da paso a la ejecuciOn de la siguiente linea de cOdigo
 	PC +=1;
-	
-	
-	
+
+
+
 	char **lineasControl = (char**)malloc(9*sizeof(char*));
-	lineasControl[0] = "X";//RegDst        
+	lineasControl[0] = "X";//RegDst
 	lineasControl[1] = "0";//Jump
 	lineasControl[2] = "0";//Branch
 	lineasControl[3] = "0";//MemRead
@@ -973,8 +989,8 @@ void jal(char * etiqueta1, etiqueta * etiquetas, int cantidadEtiquetas)
 void jr(char * reg1, etiqueta * etiquetas, int cantidadEtiquetas)
 {
 	//~ printf("inicio del salto incondicional %d", PC);
-	//~ printf("buscando la etiqueta 
+	//~ printf("buscando la etiqueta
 	PC = get_value(reg1);
 	//~ printf("fin del salto incondicional %d",PC);
-	
+
 }

@@ -13,38 +13,38 @@ void compararSalida(FILE * Salida, lista * lineasControl, char ** lineasControlR
 		if(strcmp(lineasControl[linea].arreglo[i].cadena,lineasControlReal[i])==0)
 		{
 			//~ L1 = insertar(L1,i,i,lineasControlReal[i]);
-			
+
 			L1 = insertar(L1,i,i,"-");
 			//~ L1 = insertar(L1,i,i,"asdf");
-			
+
 		}
 		else if(strcmp(lineasControlReal[i],"X")==0)
 		{
 			//~ L1 = insertar(L1,i,i,lineasControl[linea].arreglo[i].cadena);
-			
+
 			L1 = insertar(L1,i,i,"-");
-			
+
 			//~ L1 = insertar(L1,i,i,"asdfg");
 		}
 		else
 		{
 			//~ char * asd = malloc(sizeof(char)*2);
-			
+
 			//~ strcpy(asd,lineasControl[linea].arreglo[i].cadena);
 			//~ asd = lineasControl[linea].arreglo[i].cadena;
 			//~ printf("se va a insertar %s en vez de %s en la posicion %d\n",lineasControl[linea].arreglo[i].cadena,lineasControlReal[i],i);
 			//~ printf("posicion %d %s!=%s\n",i,lineasControlReal[i],lineasControl[linea].arreglo[i].cadena);
 			//~ L1 = insertar(L1,i,i,lineasControl[linea].arreglo[i].cadena);
-			
-			
-			
+
+
+
 			if (i!=5)
 			{
 				L1 = insertar(L1,i,i,lineasControl[linea].arreglo[i].cadena);
 			}
 			else
 			{
-				
+
 				//~ L1.arreglo[i].cadena = calloc(sizeof(char),2);
 				char * special = calloc(sizeof(char),3);
 				special[0] = lineasControl[linea].arreglo[i].cadena[0];
@@ -60,9 +60,9 @@ void compararSalida(FILE * Salida, lista * lineasControl, char ** lineasControlR
 				//~ sprintf(special,"%c%c",lineasControl[linea].arreglo[i].cadena[0],lineasControl[linea].arreglo[i].cadena[1]);
 				//~ strcpy(L1.arreglo[i].cadena,special);
 			}
-			
-			
-			
+
+
+
 			//~ L1 = insertar(L1,i,i,asd);
 			correcto=0;
 			//~ L1 = insertar(L1,i,i,"asd");
@@ -74,22 +74,22 @@ void compararSalida(FILE * Salida, lista * lineasControl, char ** lineasControlR
 	}
 	else
 	{
-		fprintf(Salida,"Error\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\n",L1.arreglo[0].cadena,L1.arreglo[1].cadena,L1.arreglo[2].cadena,L1.arreglo[3].cadena,L1.arreglo[4].cadena,L1.arreglo[5].cadena,L1.arreglo[6].cadena,L1.arreglo[7].cadena,L1.arreglo[8].cadena);	
+		fprintf(Salida,"Error\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\n",L1.arreglo[0].cadena,L1.arreglo[1].cadena,L1.arreglo[2].cadena,L1.arreglo[3].cadena,L1.arreglo[4].cadena,L1.arreglo[5].cadena,L1.arreglo[6].cadena,L1.arreglo[7].cadena,L1.arreglo[8].cadena);
 	}
-	
-	
+
+
 	//~ printf("lineas de control real\n");
 	//~ for (i = 0; i < 9; i++)
 	//~ {
-		//~ printf("%s",lineasControlReal[i]); 
+		//~ printf("%s",lineasControlReal[i]);
 	//~ }
 	//~ printf("\n");
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	//~ L1 = insertar(L1,1,1,"");
 	//~ L1 = insertar(L1,2,2,"");
 	//~ L1 = insertar(L1,3,3,"");
@@ -100,7 +100,7 @@ void compararSalida(FILE * Salida, lista * lineasControl, char ** lineasControlR
 	//~ L1 = insertar(L1,8,8,"");
 }
 
-//Funcion que se encarga de mostrar las cadenas de texto de los 
+//Funcion que se encarga de mostrar las cadenas de texto de los
 //elementos de la estructura lista
 void mostrarCadenas(lista L1)
 {
@@ -128,11 +128,11 @@ void mostrarEtiquetas(etiqueta * etiquetas, int cantidad)
 lista * appendLista(lista L1, lista * ListaEnlazada, int * CantidadElementos)
 {
 	//Se aumenta en uno la cantidad de elementos que posee esa lista
-	* CantidadElementos = *CantidadElementos + 1; 
+	* CantidadElementos = *CantidadElementos + 1;
 	//Se asigna mAs memoria a la lista enlazada que contendrA las listas
 
 	ListaEnlazada = (lista *) realloc(ListaEnlazada,*CantidadElementos*sizeof(lista));
-	
+
 	//Se asigna en la posicion indicada, la lista L1
 	ListaEnlazada[*CantidadElementos-1] = L1 ;
 	return ListaEnlazada;
@@ -140,9 +140,9 @@ lista * appendLista(lista L1, lista * ListaEnlazada, int * CantidadElementos)
 
 void appendList(lista * L1,lista ** ListaEnlazada, int * CantidadElementos)
 {
-	* CantidadElementos = *CantidadElementos + 1; 
+	* CantidadElementos = *CantidadElementos + 1;
 	*ListaEnlazada = (lista *) realloc(*ListaEnlazada,*CantidadElementos*sizeof(lista));
-	
+
 	*ListaEnlazada[*CantidadElementos-1] = *L1;
 }
 
@@ -150,7 +150,7 @@ void copy_lista(lista * L1, lista * L2)
 {
 	L2->cabeza = L1-> cabeza;
 	L2->fin = L1-> fin;
-	
+
 	L2->arreglo->cadena = L1->arreglo->cadena;
 }
 
@@ -188,7 +188,7 @@ void imprimirArchivoCSV(FILE * salida,lista * ListaEnlazada, int CantidadElement
 	{
 		for (j = 0; j < ListaEnlazada[i].fin ; j++)
 		{
-			fprintf(salida,"%d,%d,%s\n", i,j,ListaEnlazada[i].arreglo[j].cadena); 
+			fprintf(salida,"%d,%d,%s\n", i,j,ListaEnlazada[i].arreglo[j].cadena);
 		}
 	}
 }
@@ -203,13 +203,13 @@ void imprimirArchivoCSV(FILE * salida,lista * ListaEnlazada, int CantidadElement
 
 int tipoInstruccion(char * instruccion)
 {
-	if (strcmp(instruccion, "add") == 0 || 
+	if (strcmp(instruccion, "add") == 0 ||
 		strcmp(instruccion, "addi") == 0 ||
-		strcmp(instruccion, "subi") == 0 || 
-		strcmp(instruccion, "beq") == 0 || 
-		strcmp(instruccion, "bne") == 0 || 
-		strcmp(instruccion, "sll") == 0 || 
-		strcmp(instruccion, "slt") == 0 || 
+		strcmp(instruccion, "subi") == 0 ||
+		strcmp(instruccion, "beq") == 0 ||
+		strcmp(instruccion, "bne") == 0 ||
+		strcmp(instruccion, "sll") == 0 ||
+		strcmp(instruccion, "slt") == 0 ||
 		strcmp(instruccion, "sub") == 0 ||
 		strcmp(instruccion, "div") == 0 ||
 		strcmp(instruccion, "mul") == 0 ||
@@ -218,16 +218,16 @@ int tipoInstruccion(char * instruccion)
 	{
 		return 3;
 	}
-	else if (strcmp(instruccion, "lw") == 0 || 
-			 strcmp(instruccion, "sw") == 0 || 
+	else if (strcmp(instruccion, "lw") == 0 ||
+			 strcmp(instruccion, "sw") == 0 ||
 			 strcmp(instruccion, "la") == 0)
 	{
 		return 2;
 	}
-	else if (strcmp(instruccion, "j") == 0 || 
-			 strcmp(instruccion, "jal") == 0 || 
+	else if (strcmp(instruccion, "j") == 0 ||
+			 strcmp(instruccion, "jal") == 0 ||
 			 strcmp(instruccion, "jr") == 0
-			 ) 
+			 )
 	{
 		return 1;
 	}
@@ -256,20 +256,20 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		exit(1);
 	}
 	fprintf(Salida,"Estado\t\tRegDst\t\tJump\t\tBranch\t\tMemRead\t\tMemToRg\t\tALUOp\t\tMemWr\t\tALUSrc\t\tRegWrite\n");
-	
+
 	char ** lineaControlActual = (char**)malloc(9*sizeof(char*));
 	//~ lista instruccionesUsadas = crearLista();
 	int posicion;
 	int linea = 1;
 	while( PC < cantidadInstrucciones )
 	{
-		
-		
+
+
 		/////BEGIN DEBUG MODE//////
 		//~ printf("PC: %d\n",PC);
 		//~ mostrarCadenas(instrucciones[PC]);
 		//////END DEBUG MODE///////
-		
+
 		posicion=PC+1;
 		//~ posicion = buscarSTR(instruccionesUsadas, instrucciones[PC].arreglo[0].cadena);
 		//~ if(posicion == -1)
@@ -277,16 +277,16 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 			//~ instruccionesUsadas = append(instruccionesUsadas,0,instrucciones[PC].arreglo[0].cadena);
 		//~ }
 		//~ posicion = buscarSTR(instruccionesUsadas, instrucciones[PC].arreglo[0].cadena)+1;
-		
+
 		if(strcmp(instrucciones[PC].arreglo[0].cadena, "addi") == 0)
 		{
 			lineaControlActual = addi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, atoi(instrucciones[PC].arreglo[3].cadena));
-			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion); 
+			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "subi") == 0)
 		{
 			lineaControlActual = subi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, atoi(instrucciones[PC].arreglo[3].cadena) );
-			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion); 
+			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "add")== 0)
 		{
@@ -301,12 +301,12 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "mul")== 0)
 		{
 			lineaControlActual = mul(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
-			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion); 
+			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "div")== 0)
 		{
 			lineaControlActual = divi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
-			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion); 
+			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "blt")== 0)
 		{
@@ -319,12 +319,12 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "beq")== 0)
 		{
 			lineaControlActual = beq(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena, etiquetas, cantidadEtiquetas);
-			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion); 
+			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "j")== 0)
 		{
 			lineaControlActual = j(instrucciones[PC].arreglo[1].cadena, etiquetas, cantidadEtiquetas);
-			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion); 
+			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "jal")== 0)
 		{
@@ -354,7 +354,7 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 			printf("INSTRUCCION NO ENCONTRADA %s",instrucciones[PC].arreglo[0].cadena);
 		}
 		linea +=1;
-	} 	
+	}
 }
 
 lista * lineasDeControl(char * nombreArchivoEntradaLControl)
@@ -367,8 +367,8 @@ lista * lineasDeControl(char * nombreArchivoEntradaLControl)
 	}
 	//Se declara la lista enlazada que contendrA las lineas de control recibidas por pantalla.
 	lista * lineasControl;
-	lineasControl = (lista *) calloc(sizeof(lista),40);	
-	
+	lineasControl = (lista *) calloc(sizeof(lista),40);
+
 	//Se declaran la lista de caracteres que contendran los valores correspondientes
 	//a la columna en el archivo de entrada
 	char * RegDst = calloc(sizeof(char),6);
@@ -380,8 +380,8 @@ lista * lineasDeControl(char * nombreArchivoEntradaLControl)
 	char * MemWrite = calloc(sizeof(char),8);
 	char * ALUSrc = calloc(sizeof(char),6);
 	char * RegWrite = calloc(sizeof(char),7);
-	
-	//Se declara la lista de largo 9, correspondiente 
+
+	//Se declara la lista de largo 9, correspondiente
 	//La cual contendrA en cada posicion los 'strings' declarados
 	//Anteriormente
 	lista L1 = crearLista();
@@ -395,8 +395,8 @@ lista * lineasDeControl(char * nombreArchivoEntradaLControl)
 	L1 = insertar(L1,7,7,"");
 	L1 = insertar(L1,8,8,"");
 
-	
-	
+
+
 	int i=0;
 	//Se lee el archivo de entrada hasta la ultima linea
 	while(fscanf(LControl,"%s %s %s %s %s %s %s %s %s",RegDst,Jump,Branch,MemRead,MemToReg,ALUOp,MemWrite,ALUSrc,RegWrite) != EOF)
@@ -422,7 +422,7 @@ lista * lineasDeControl(char * nombreArchivoEntradaLControl)
 		strcpy(m7,MemWrite);
 		strcpy(m8,ALUSrc);
 		strcpy(m9,RegWrite);
-		
+
 		//Se asigna la posicion correspondiente.
 		L1.linea = i;
 		L1.arreglo[0].cadena = m1;
@@ -441,40 +441,65 @@ lista * lineasDeControl(char * nombreArchivoEntradaLControl)
 	//~ mostrarListaEnlazada(lineasControl,i);
 	//se retorna la lista de lista
 	return lineasControl;
-	
+
 }
 
+void setValoresInicialesRegistro(char * nombreArchivoRegistros)
+{
+	FILE * valoresInicialesRegistro;
+	valoresInicialesRegistro = fopen(nombreArchivoRegistros,"r");
+	if ( valoresInicialesRegistro ==NULL ) {
+		printf("No se puede leer el archivo con los registros\n");
+		printf("El programa se cerrarA\n");
+		exit(5);
+	}
+	char * registro = calloc(sizeof(char), 50);
+	char * valor = calloc(sizeof(char),40);
+
+
+	while( fscanf(valoresInicialesRegistro,"%s %s",registro, valor) != EOF )
+	{
+		// printf("r:-%s- v:-%s-\n",registro, valor);
+		memmove(registro, registro+1, strlen(registro));
+		set_value(registro, atoi(valor) );
+	}
+
+	print_register();
+
+
+
+}
 
 void Archivo(char * nombreArchivoEntradaLControl, char * nombreArchivoEntradaInstrucciones, char * nombreArchivoSalida)
 {
-	
+
 	//Obtener lineas de control desde el archivo de entrada
 	lista * lineasControlEntrada = lineasDeControl(nombreArchivoEntradaLControl);
-	
+
 	//Inicializando lista enlazada
 	lista * instrucciones;
-	instrucciones = (lista *) calloc(sizeof(lista),40);	
+	instrucciones = (lista *) calloc(sizeof(lista),40);
 
 	//Inicializando etiquetas;
 	etiqueta * etiquetas;
 	etiquetas = (etiqueta *)calloc(sizeof(etiqueta),10);
-	
-	
+
+
     int * CantidadListas = calloc(sizeof(int),1);
 	int * CantidadEtiquetas = calloc(sizeof(int),1);
-	
+
 	FILE * entrada;
 	if( (entrada = fopen(nombreArchivoEntradaInstrucciones, "r")) == NULL)
 	{
 		printf("Error! Archivo no existe");
 		exit(1);
 	}
-	
+
 	char * op1 = calloc(sizeof(char),10);
 	char * op2 = calloc(sizeof(char),10);
 	char * op3 = calloc(sizeof(char),10);
 	char * op4 = calloc(sizeof(char),10);
-	
+
 	lista L1 = crearLista();
 	L1 = insertar(L1,0,0,"");
 	L1 = insertar(L1,1,1,"");
@@ -487,9 +512,9 @@ void Archivo(char * nombreArchivoEntradaLControl, char * nombreArchivoEntradaIns
 	L3 = insertar(L3,1,1,"");
 	L3 = insertar(L3,2,2,"");
 	L3 = insertar(L3,3,3,"");
-	
+
 	//~ lista L4 = crearLista();
-	
+
 	while(fscanf(entrada,"%s",op1) != EOF)
 	{
 		//~ printf("%s\n",op1);
@@ -508,17 +533,17 @@ void Archivo(char * nombreArchivoEntradaLControl, char * nombreArchivoEntradaIns
 			}
 			if(strchr(op3,'$'))
 			{
-				strncpy(op3,&op3[1],strlen(op3));				
+				strncpy(op3,&op3[1],strlen(op3));
 			}
 			if(strchr(op4,'$'))
 			{
-				strncpy(op4,&op4[1],strlen(op4));				
+				strncpy(op4,&op4[1],strlen(op4));
 			}
 			op2[strlen(op2)-1]=0;
 			op3[strlen(op3)-1]=0;
-			
-	
-			
+
+
+
 			char * m1 = malloc(sizeof(char) * strlen(op1));
 			strcpy(m1,op1);
 			char * m2 = malloc(sizeof(char) * strlen(op2));
@@ -527,15 +552,15 @@ void Archivo(char * nombreArchivoEntradaLControl, char * nombreArchivoEntradaIns
 			strcpy(m3,op3);
 			char * m4 = malloc(sizeof(char) * strlen(op4));
 			strcpy(m4,op4);
-			
+
 			L3.linea = *CantidadListas;
 			L3.arreglo[0].cadena = m1;
 			L3.arreglo[1].cadena = m2;
 			L3.arreglo[2].cadena = m3;
 			L3.arreglo[3].cadena = m4;
-		
+
 			instrucciones[*CantidadListas] = L3;
-			*CantidadListas+=1;	
+			*CantidadListas+=1;
 		}
 		else if(tipoInstruccion(op1)==2)
 		{
@@ -546,31 +571,31 @@ void Archivo(char * nombreArchivoEntradaLControl, char * nombreArchivoEntradaIns
 			}
 			//Se elimina la ','
 			op2[strlen(op2)-1]=0;
-			
+
 			char * m1 = malloc(sizeof(char) * strlen(op1));
 			strcpy(m1,op1);
 			char * m2 = malloc(sizeof(char) * strlen(op2));
 			strcpy(m2,op2);
 			char * m3 = malloc(sizeof(char) * strlen(op3));
 			strcpy(m3,op3);
-			
+
 			L2.linea = *CantidadListas;
 			L2.arreglo[0].cadena = m1;
 			L2.arreglo[1].cadena = m2;
 			L2.arreglo[2].cadena = m3;
-		
+
 			instrucciones[*CantidadListas] = L2;
 			*CantidadListas+=1;
-			
+
 		}
 		else if(tipoInstruccion(op1)==1)
 		{
 			fscanf(entrada,"%s",op2);
 			if(strchr(op2,'$'))
 			{
-				strncpy(op2,&op2[1],strlen(op2));			
+				strncpy(op2,&op2[1],strlen(op2));
 			}
-			
+
 			char * m1 = malloc(sizeof(char) * strlen(op1));
 			strcpy(m1,op1);
 			char * m2 = malloc(sizeof(char) * strlen(op2));
@@ -579,8 +604,8 @@ void Archivo(char * nombreArchivoEntradaLControl, char * nombreArchivoEntradaIns
 			L1.arreglo[1].cadena = m2;
 			L1.linea = *CantidadListas;
 			instrucciones[*CantidadListas] = L1;
-			*CantidadListas+=1;	
-				
+			*CantidadListas+=1;
+
 		}
 		//LABELS
 		else if (tipoInstruccion(op1)==0)
@@ -591,23 +616,23 @@ void Archivo(char * nombreArchivoEntradaLControl, char * nombreArchivoEntradaIns
 				temp[strlen(temp)-1]=0;
 				etiquetas[*CantidadEtiquetas].nombre = temp;
 				etiquetas[*CantidadEtiquetas].linea = *CantidadListas;
-				*CantidadEtiquetas+=1;	
+				*CantidadEtiquetas+=1;
 		}
 		lineasControlEntrada[*CantidadListas -1].linea = *CantidadListas -1;
-	} //FIN DE LECTURA ARCHIVO 
-	
+	} //FIN DE LECTURA ARCHIVO
+
 	//~ mostrarListaEnlazada(instrucciones,*CantidadListas);
 	//~ mostrarEtiquetas(etiquetas,*CantidadEtiquetas);
 	fclose(entrada);
 
-	
 
-	
+
+
 	//Ejecucion del programa
 	ejecutarPrograma(instrucciones, *CantidadListas,etiquetas, *CantidadEtiquetas, lineasControlEntrada, nombreArchivoSalida);
-	
-	
-	
+
+
+
 	//~ print_register();
 	getchar();
 }
