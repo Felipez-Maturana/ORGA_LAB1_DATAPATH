@@ -42,14 +42,19 @@ int main()
 	ra = calloc(sizeof(int),1);
 
 
-	char * nombreArchivoEntradaLControl = calloc(sizeof(char),40);
 	char * nombreArchivoEntradaInstrucciones = calloc(sizeof(char),40);
 	char * nombreArchivoSalida = calloc(sizeof(char),40);
-
 	char * nombreArchivoEntradaRegistrosIniciales = calloc(sizeof(char),40);
 	nombreArchivoEntradaRegistrosIniciales = "inputRegistros.txt";
 
 	setValoresInicialesRegistro(nombreArchivoEntradaRegistrosIniciales);
+
+	buffer * bufferIFID = calloc(sizeof(buffer),1);
+
+	set_reg_buffer(bufferIFID);
+	mostrarBuffer(*bufferIFID);
+
+
 
 	// printf("Ingrese el nombre del archivo (con extensiOn) de entrada que posee las lineas de control\n");
 	// scanf("%s",nombreArchivoEntradaLControl);

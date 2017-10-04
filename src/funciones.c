@@ -245,7 +245,7 @@ int tipoInstruccion(char * instruccion)
 
 
 
-void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta * etiquetas, int cantidadEtiquetas, lista * lineasControlEntrada, char * nombreArchivoSalida)
+void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta * etiquetas, int cantidadEtiquetas, char * nombreArchivoSalida)
 {
 	//~ mostrarListaEnlazada(instrucciones,cantidadInstrucciones);
 	//~ mostrarEtiquetas(etiquetas,cantidadEtiquetas);
@@ -281,32 +281,32 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		if(strcmp(instrucciones[PC].arreglo[0].cadena, "addi") == 0)
 		{
 			lineaControlActual = addi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, atoi(instrucciones[PC].arreglo[3].cadena));
-			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "subi") == 0)
 		{
 			lineaControlActual = subi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, atoi(instrucciones[PC].arreglo[3].cadena) );
-			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "add")== 0)
 		{
 			lineaControlActual = add(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
-			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "sub")== 0)
 		{
 			lineaControlActual = sub(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
-			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "mul")== 0)
 		{
 			lineaControlActual = mul(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
-			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "div")== 0)
 		{
 			lineaControlActual = divi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
-			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "blt")== 0)
 		{
@@ -319,12 +319,12 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "beq")== 0)
 		{
 			lineaControlActual = beq(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena, etiquetas, cantidadEtiquetas);
-			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "j")== 0)
 		{
 			lineaControlActual = j(instrucciones[PC].arreglo[1].cadena, etiquetas, cantidadEtiquetas);
-			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "jal")== 0)
 		{
@@ -342,12 +342,12 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		{
 			lineaControlActual = lw(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena);
 			//~ printf("LW comparando PC = %d\n",PC);
-			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "sw")== 0)
 		{
 			lineaControlActual = sw(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena);
-			compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
 		}
 		else
 		{
@@ -470,11 +470,99 @@ void setValoresInicialesRegistro(char * nombreArchivoRegistros)
 
 }
 
-void Archivo(char * nombreArchivoEntradaLControl, char * nombreArchivoEntradaInstrucciones, char * nombreArchivoSalida)
+void mostrarBuffer(buffer Buffer)
+{
+	printf("nombre: %s\n",Buffer.nombre );
+	printf("jump: %d\n", Buffer.jump);
+	printf("jal: %d\n", Buffer.jal);
+	printf("jr: %d\n", Buffer.jr);
+	printf("RegWrite: %d\n", Buffer.RegWrite);
+	printf("ALUSrc: %d\n", Buffer.ALUSrc);
+	printf("ALUOp: %d\n", Buffer.ALUOp);
+	printf("RegDst: %d\n", Buffer.RegDst);
+	printf("Branch: %d\n", Buffer.Branch);
+	printf("MemWrite: %d\n", Buffer.MemWrite);
+	printf("MemRead: %d\n", Buffer.MemRead);
+	printf("MemToReg: %d\n", Buffer.MemToReg);
+	printf("PCsrc: %d\n", Buffer.PCsrc);
+	printf("PC: %d\n", Buffer.PC);
+	printf("zero: %d\n", Buffer.zero);
+	printf("at: %d\n", Buffer.at);
+	printf("v0: %d\n", Buffer.v0);
+	printf("v1: %d\n", Buffer.v1);
+	printf("a0: %d\n", Buffer.a0);
+	printf("a1: %d\n", Buffer.a1);
+	printf("a2: %d\n", Buffer.a2);
+	printf("a3: %d\n", Buffer.a3);
+	printf("t0: %d\n", Buffer.t0);
+	printf("t1: %d\n", Buffer.t1);
+	printf("t2: %d\n", Buffer.t2);
+	printf("t3: %d\n", Buffer.t3);
+	printf("t4: %d\n", Buffer.t4);
+	printf("t5: %d\n", Buffer.t5);
+	printf("t6: %d\n", Buffer.t6);
+	printf("t7: %d\n", Buffer.t7);
+	printf("s0: %d\n", Buffer.s0);
+	printf("s1: %d\n", Buffer.s1);
+	printf("s2: %d\n", Buffer.s2);
+	printf("s3: %d\n", Buffer.s3);
+	printf("s4: %d\n", Buffer.s4);
+	printf("s5: %d\n", Buffer.s5);
+	printf("s6: %d\n", Buffer.s6);
+	printf("s7: %d\n", Buffer.s7);
+	printf("t8: %d\n", Buffer.t8);
+	printf("t9: %d\n", Buffer.t9);
+	printf("k0: %d\n", Buffer.k0);
+	printf("k1: %d\n", Buffer.k1);
+	printf("gp: %d\n", Buffer.gp);
+	printf("sp: %d\n", Buffer.sp);
+	printf("fp: %d\n", Buffer.fp);
+	printf("ra: %d\n", Buffer.ra);
+}
+
+void set_reg_buffer(buffer * Buffer)
+{
+	Buffer->PC = get_value("PC");
+  Buffer->zero = get_value("zero");
+  Buffer->at = get_value("at");
+  Buffer->v0 = get_value("v0");
+  Buffer->v1 = get_value("v1");
+  Buffer->a0 = get_value("a0");
+  Buffer->a1 = get_value("a1");
+  Buffer->a2 = get_value("a2");
+  Buffer->a3 = get_value("a3");
+  Buffer->t0 = get_value("t0");
+  Buffer->t1 = get_value("t1");
+  Buffer->t2 = get_value("t2");
+  Buffer->t3 = get_value("t3");
+  Buffer->t4 = get_value("t4");
+  Buffer->t5 = get_value("t5");
+  Buffer->t6 = get_value("t6");
+  Buffer->t7 = get_value("t7");
+  Buffer->s0 = get_value("s0");
+  Buffer->s1 = get_value("s1");
+  Buffer->s2 = get_value("s2");
+  Buffer->s3 = get_value("s3");
+  Buffer->s4 = get_value("s4");
+  Buffer->s5 = get_value("s5");
+  Buffer->s6 = get_value("s6");
+  Buffer->s7 = get_value("s7");
+  Buffer->t8 = get_value("t8");
+  Buffer->t9 = get_value("t9");
+  Buffer->k0 = get_value("k0");
+  Buffer->k1 = get_value("k1");
+  Buffer->gp = get_value("gp");
+  Buffer->sp = get_value("sp");
+  Buffer->fp = get_value("fp");
+  Buffer->ra = get_value("ra");
+}
+
+
+void Archivo(char * nombreArchivoEntradaRegistrosIniciales, char * nombreArchivoEntradaInstrucciones, char * nombreArchivoSalida)
 {
 
 	//Obtener lineas de control desde el archivo de entrada
-	lista * lineasControlEntrada = lineasDeControl(nombreArchivoEntradaLControl);
+	// lista * lineasControlEntrada = lineasDeControl(nombreArchivoEntradaLControl);
 
 	//Inicializando lista enlazada
 	lista * instrucciones;
@@ -485,7 +573,7 @@ void Archivo(char * nombreArchivoEntradaLControl, char * nombreArchivoEntradaIns
 	etiquetas = (etiqueta *)calloc(sizeof(etiqueta),10);
 
 
-    int * CantidadListas = calloc(sizeof(int),1);
+  int * CantidadListas = calloc(sizeof(int),1);
 	int * CantidadEtiquetas = calloc(sizeof(int),1);
 
 	FILE * entrada;
@@ -618,7 +706,7 @@ void Archivo(char * nombreArchivoEntradaLControl, char * nombreArchivoEntradaIns
 				etiquetas[*CantidadEtiquetas].linea = *CantidadListas;
 				*CantidadEtiquetas+=1;
 		}
-		lineasControlEntrada[*CantidadListas -1].linea = *CantidadListas -1;
+		// lineasControlEntrada[*CantidadListas -1].linea = *CantidadListas -1;
 	} //FIN DE LECTURA ARCHIVO
 
 	//~ mostrarListaEnlazada(instrucciones,*CantidadListas);
@@ -629,7 +717,7 @@ void Archivo(char * nombreArchivoEntradaLControl, char * nombreArchivoEntradaIns
 
 
 	//Ejecucion del programa
-	ejecutarPrograma(instrucciones, *CantidadListas,etiquetas, *CantidadEtiquetas, lineasControlEntrada, nombreArchivoSalida);
+	ejecutarPrograma(instrucciones, *CantidadListas,etiquetas, *CantidadEtiquetas, nombreArchivoSalida);
 
 
 
