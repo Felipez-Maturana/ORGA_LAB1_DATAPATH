@@ -73,4 +73,13 @@ typedef struct b
   int PCsrc;
 } buffer;
 
+typedef struct c
+{
+	char * IF;
+	char * ID;
+	char * EX;
+	char * MEM;
+	char * WB;
+} ccycle;
+
 #endif

@@ -2,6 +2,70 @@
 #include <stdio.h>
 #include "operaciones.c"
 
+
+void setValoresInicialesRegistro(char * nombreArchivoRegistros)
+{
+	FILE * valoresInicialesRegistro;
+	valoresInicialesRegistro = fopen(nombreArchivoRegistros,"r");
+	if ( valoresInicialesRegistro ==NULL ) {
+		printf("No se puede leer el archivo con los registros\n");
+		printf("El programa se cerrarA\n");
+		exit(5);
+	}
+	char * registro = calloc(sizeof(char), 50);
+	char * valor = calloc(sizeof(char),40);
+
+
+	while( fscanf(valoresInicialesRegistro,"%s %s",registro, valor) != EOF )
+	{
+		// printf("r:-%s- v:-%s-\n",registro, valor);
+		memmove(registro, registro+1, strlen(registro));
+		set_value(registro, atoi(valor) );
+	}
+
+	print_register();
+
+
+
+}
+
+void set_reg_buffer(buffer * Buffer)
+{
+	Buffer->PC = get_value("PC");
+  Buffer->zero = get_value("zero");
+  Buffer->at = get_value("at");
+  Buffer->v0 = get_value("v0");
+  Buffer->v1 = get_value("v1");
+  Buffer->a0 = get_value("a0");
+  Buffer->a1 = get_value("a1");
+  Buffer->a2 = get_value("a2");
+  Buffer->a3 = get_value("a3");
+  Buffer->t0 = get_value("t0");
+  Buffer->t1 = get_value("t1");
+  Buffer->t2 = get_value("t2");
+  Buffer->t3 = get_value("t3");
+  Buffer->t4 = get_value("t4");
+  Buffer->t5 = get_value("t5");
+  Buffer->t6 = get_value("t6");
+  Buffer->t7 = get_value("t7");
+  Buffer->s0 = get_value("s0");
+  Buffer->s1 = get_value("s1");
+  Buffer->s2 = get_value("s2");
+  Buffer->s3 = get_value("s3");
+  Buffer->s4 = get_value("s4");
+  Buffer->s5 = get_value("s5");
+  Buffer->s6 = get_value("s6");
+  Buffer->s7 = get_value("s7");
+  Buffer->t8 = get_value("t8");
+  Buffer->t9 = get_value("t9");
+  Buffer->k0 = get_value("k0");
+  Buffer->k1 = get_value("k1");
+  Buffer->gp = get_value("gp");
+  Buffer->sp = get_value("sp");
+  Buffer->fp = get_value("fp");
+  Buffer->ra = get_value("ra");
+}
+
 void compararSalida(FILE * Salida, lista * lineasControl, char ** lineasControlReal, int linea)
 {
 	int i=0;
@@ -245,9 +309,31 @@ int tipoInstruccion(char * instruccion)
 
 
 
-void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta * etiquetas, int cantidadEtiquetas, char * nombreArchivoSalida)
+void ejecutarPrograma(char * nombreArchivoEntradaRegistrosIniciales, lista * instrucciones, int cantidadInstrucciones, etiqueta * etiquetas, int cantidadEtiquetas, char * nombreArchivoSalida)
 {
-	//~ mostrarListaEnlazada(instrucciones,cantidadInstrucciones);
+	setValoresInicialesRegistro(nombreArchivoEntradaRegistrosIniciales);
+	int * espera;
+	*espera = 0;
+
+	ccycle ** ciclos = calloc(sizeof(ccycle *),50);
+	int i;
+	for ( i = 0; i < 50; i++) {
+		ciclos[i] = calloc(sizeof(ccycle),1);
+	}
+
+	buffer ** buffers = calloc(sizeof(buffer *),4);
+	for (int i = 0; i < 4; i++) {
+		buffers[i] = calloc(sizeof(buffer),1);
+	}
+
+	// buffer * bufferIFID = calloc(sizeof(buffer),1);
+	// buffer * bufferIDEX = calloc(sizeof(buffer),1);
+	// buffer * bufferEXMEM = calloc(sizeof(buffer),1);
+	// buffer * bufferMEMWB = calloc(sizeof(buffer),1);
+
+
+	set_reg_buffer(buffers[1]);
+	// ~ mostrarListaEnlazada(instrucciones,cantidadInstrucciones);
 	//~ mostrarEtiquetas(etiquetas,cantidadEtiquetas);
 	FILE * Salida;
 	if( (Salida = fopen(nombreArchivoSalida, "w")) == NULL)
@@ -255,9 +341,8 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		printf("Error! No se puede escribir, verifica que no tengas abierto el archivo");
 		exit(1);
 	}
-	fprintf(Salida,"Estado\t\tRegDst\t\tJump\t\tBranch\t\tMemRead\t\tMemToRg\t\tALUOp\t\tMemWr\t\tALUSrc\t\tRegWrite\n");
 
-	char ** lineaControlActual = (char**)malloc(9*sizeof(char*));
+	// char ** lineaControlActual = (char**)malloc(9*sizeof(char*));
 	//~ lista instruccionesUsadas = crearLista();
 	int posicion;
 	int linea = 1;
@@ -353,6 +438,22 @@ void ejecutarPrograma(lista * instrucciones, int cantidadInstrucciones, etiqueta
 		{
 			printf("INSTRUCCION NO ENCONTRADA %s",instrucciones[PC].arreglo[0].cadena);
 		}
+
+
+		if (*espera == 0) {
+			ciclos[linea-1]->IF = instrucciones[PC].arreglo[0].cadena;
+			ciclos[linea]->ID = instrucciones[PC].arreglo[0].cadena;
+			ciclos[linea+1]->EX = instrucciones[PC].arreglo[0].cadena;
+			ciclos[linea+2]->MEM = instrucciones[PC].arreglo[0].cadena;
+			ciclos[linea+3]->WB = instrucciones[PC].arreglo[0].cadena;
+		}
+		else{
+			ciclos[linea-1]->IF = "NOP";
+			ciclos[linea]->ID = "NOP";
+			ciclos[linea+1]->EX = "NOP";
+			ciclos[linea+2]->MEM = "NOP";
+			ciclos[linea+3]->WB = "NOP";
+		}
 		linea +=1;
 	}
 }
@@ -444,31 +545,7 @@ lista * lineasDeControl(char * nombreArchivoEntradaLControl)
 
 }
 
-void setValoresInicialesRegistro(char * nombreArchivoRegistros)
-{
-	FILE * valoresInicialesRegistro;
-	valoresInicialesRegistro = fopen(nombreArchivoRegistros,"r");
-	if ( valoresInicialesRegistro ==NULL ) {
-		printf("No se puede leer el archivo con los registros\n");
-		printf("El programa se cerrarA\n");
-		exit(5);
-	}
-	char * registro = calloc(sizeof(char), 50);
-	char * valor = calloc(sizeof(char),40);
 
-
-	while( fscanf(valoresInicialesRegistro,"%s %s",registro, valor) != EOF )
-	{
-		// printf("r:-%s- v:-%s-\n",registro, valor);
-		memmove(registro, registro+1, strlen(registro));
-		set_value(registro, atoi(valor) );
-	}
-
-	print_register();
-
-
-
-}
 
 void mostrarBuffer(buffer Buffer)
 {
@@ -520,42 +597,7 @@ void mostrarBuffer(buffer Buffer)
 	printf("ra: %d\n", Buffer.ra);
 }
 
-void set_reg_buffer(buffer * Buffer)
-{
-	Buffer->PC = get_value("PC");
-  Buffer->zero = get_value("zero");
-  Buffer->at = get_value("at");
-  Buffer->v0 = get_value("v0");
-  Buffer->v1 = get_value("v1");
-  Buffer->a0 = get_value("a0");
-  Buffer->a1 = get_value("a1");
-  Buffer->a2 = get_value("a2");
-  Buffer->a3 = get_value("a3");
-  Buffer->t0 = get_value("t0");
-  Buffer->t1 = get_value("t1");
-  Buffer->t2 = get_value("t2");
-  Buffer->t3 = get_value("t3");
-  Buffer->t4 = get_value("t4");
-  Buffer->t5 = get_value("t5");
-  Buffer->t6 = get_value("t6");
-  Buffer->t7 = get_value("t7");
-  Buffer->s0 = get_value("s0");
-  Buffer->s1 = get_value("s1");
-  Buffer->s2 = get_value("s2");
-  Buffer->s3 = get_value("s3");
-  Buffer->s4 = get_value("s4");
-  Buffer->s5 = get_value("s5");
-  Buffer->s6 = get_value("s6");
-  Buffer->s7 = get_value("s7");
-  Buffer->t8 = get_value("t8");
-  Buffer->t9 = get_value("t9");
-  Buffer->k0 = get_value("k0");
-  Buffer->k1 = get_value("k1");
-  Buffer->gp = get_value("gp");
-  Buffer->sp = get_value("sp");
-  Buffer->fp = get_value("fp");
-  Buffer->ra = get_value("ra");
-}
+
 
 
 void Archivo(char * nombreArchivoEntradaRegistrosIniciales, char * nombreArchivoEntradaInstrucciones, char * nombreArchivoSalida)
@@ -717,7 +759,7 @@ void Archivo(char * nombreArchivoEntradaRegistrosIniciales, char * nombreArchivo
 
 
 	//Ejecucion del programa
-	ejecutarPrograma(instrucciones, *CantidadListas,etiquetas, *CantidadEtiquetas, nombreArchivoSalida);
+	ejecutarPrograma(nombreArchivoEntradaRegistrosIniciales, instrucciones, *CantidadListas,etiquetas, *CantidadEtiquetas, nombreArchivoSalida);
 
 
 

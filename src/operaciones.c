@@ -1,5 +1,6 @@
 #include "cons.c"
 
+
 int * get_adress(char * nameReg)
 {
 	if (strcmp(nameReg,"zero") == 0)
