@@ -1,6 +1,8 @@
 #include "cons.c"
 
 
+
+
 int * get_adress(char * nameReg)
 {
 	if (strcmp(nameReg,"zero") == 0)
@@ -127,6 +129,28 @@ int * get_adress(char * nameReg)
 	else
 	{
 		return NULL;
+	}
+}
+
+int verificarNOP(buffer * buffers)
+{
+	if (buffers[2].RegWrite == 1 && buffers[2].RegRegDst != get_adress("zero") && buffers[2].RegRegDst == buffers[1].rs  ) {
+		return 1;
+	}
+	else if (buffers[2].RegWrite == 1 && buffers[2].RegRegDst != get_adress("zero") && buffers[2].RegRegDst == buffers[1].rt  ) {
+		return 2;
+	}
+	else if (buffers[3].RegWrite == 1 && buffers[3].RegRegDst != get_adress("zero") && buffers[3].RegRegDst == buffers[1].rs  ) {
+		return 3;
+	}
+	else if (buffers[3].RegWrite == 1 && buffers[3].RegRegDst != get_adress("zero") && buffers[3].RegRegDst == buffers[1].rt  ) {
+		return 4;
+	}
+	else if (buffers[1].MemRead == 1 && (buffers[1].rt == buffers[0].rs || buffers[1].rt == buffers[0].rt  ) ) {
+		return 5;
+	}
+	else{
+		return 0;
 	}
 }
 
@@ -577,25 +601,37 @@ void print_register()
 	printf("ra: %d\n", *ra);
 }
 
-char ** addi(char * reg1, char * reg2, int value)
+void addi(char * reg1, char * reg2, int value, int * espera, buffer ** buffers, ccycle * ciclos, int etapa)
 {
+
+	//IF
+	// buffers[0]->PC = PC;
+	// buffers[0]->instruccion= "addi";
+	// ciclos->IF = "addi";
+	//ID
+
+	//EX
+
+	//MEM
+
+	//WB
 	int res = get_value(reg2) + value;
 	set_value(reg1,res);
 	PC+=1;
 
-	char **lineasControl = (char**)malloc(9*sizeof(char*));
-	lineasControl[0] = "0";//RegDst
-	lineasControl[1] = "0";//Jump
-	lineasControl[2] = "0";//Branch
-	lineasControl[3] = "0";//MemRead
-	lineasControl[4] = "0";//MemToReg
-	lineasControl[5] = "00";//ALUOp
-	lineasControl[6] = "0";//MemWrite
-	lineasControl[7] = "1";//ALUSrc
-	lineasControl[8] = "1";//RegWrite
+	// char **lineasControl = (char**)malloc(9*sizeof(char*));
+	// lineasControl[0] = "0";//RegDst
+	// lineasControl[1] = "0";//Jump
+	// lineasControl[2] = "0";//Branch
+	// lineasControl[3] = "0";//MemRead
+	// lineasControl[4] = "0";//MemToReg
+	// lineasControl[5] = "00";//ALUOp
+	// lineasControl[6] = "0";//MemWrite
+	// lineasControl[7] = "1";//ALUSrc
+	// lineasControl[8] = "1";//RegWrite
 	//~ char *lineasControl[9] = { "1","0","0","0","010","0","0","1"};
 
-	return lineasControl;
+
 }
 
 char ** subi(char * reg1, char * reg2, int value)
@@ -618,23 +654,70 @@ char ** subi(char * reg1, char * reg2, int value)
 	return lineasControl;
 }
 
-char ** add(char * reg1, char * reg2, char * reg3)
+void add(char * reg1, char * reg2, char * reg3, int * espera, buffer ** buffers, ccycle * ciclos, int etapa)
 {
-	int res = get_value(reg2) + get_value(reg3);
-	set_value(reg1,res);
-	PC+=1;
+	//Etapa IF
+	if (etapa == 0) {
+		printf("etapaIF\n");
+		buffers[0]->PC = get_value("PC");
+	}
+	//Etapa ID
+	else if (etapa == 1) {
+		buffers[1]=buffers[0];
+		printf("add etapa1\n");
+		buffers[1]=buffers[0];
+		buffers[1]->RegDst = 1;
+		buffers[1]->jump = 0;
+		buffers[1]->Branch = 0;
+		buffers[1]->MemRead = 1;
+		buffers[1]->MemToReg = 1;
+		buffers[1]->ALUOp = 1;
+		buffers[1]->MemWrite = 0;
+		buffers[1]->ALUSrc = 1;
+		buffers[1]->RegWrite = 1;
+		if (buffers[1]->RegDst == 1) {
+			buffers[1]->RegRegDst = get_adress(reg3);
+		}
+	}
+	//Etapa EX
+	else if (etapa == 2) {
+		buffers[2]=buffers[1];
+		printf("add etapa2\n");
+	}
+	//Etapa MEM
+	else if (etapa == 3) {
+		buffers[3]=buffers[2];
+		printf("etapa3\n");
+	}
+	//Etapa WB
+	else if (etapa == 4) {
+		*espera = verificarNOP(*buffers);
+		buffers[0]=buffers[3];
+		printf("etapa4\n");
+		int res = get_value(reg2) + get_value(reg3);
+		set_value(reg1,res);
+		PC+=1;
+	}
+	else{
+		printf("Etapa no reconocida, el programa se cerrarA");
+		exit(1);
 
-	char **lineasControl = (char**)malloc(9*sizeof(char*));
-	lineasControl[0] = "1";//RegDst
-	lineasControl[1] = "0";//Jump
-	lineasControl[2] = "0";//Branch
-	lineasControl[3] = "0";//MemRead
-	lineasControl[4] = "0";//MemToReg
-	lineasControl[5] = "10";//ALUOp
-	lineasControl[6] = "0";//MemWrite
-	lineasControl[7] = "0";//ALUSrc
-	lineasControl[8] = "1";//RegWrite
-	return lineasControl;
+	}
+
+
+	// char **lineasControl = (char**)malloc(9*sizeof(char*));
+	// lineasControl[0] = "1";//RegDst
+	// lineasControl[1] = "0";//Jump
+	// lineasControl[2] = "0";//Branch
+	// lineasControl[3] = "0";//MemRead
+	// lineasControl[4] = "0";//MemToReg
+	// lineasControl[5] = "10";//ALUOp
+	// lineasControl[6] = "0";//MemWrite
+	// lineasControl[7] = "0";//ALUSrc
+	// lineasControl[8] = "1";//RegWrite
+
+
+	// return lineasControl;
 }
 
 char ** sub(char * reg1, char * reg2, char * reg3)
@@ -840,7 +923,7 @@ void la(char * reg1, char * op3)
 //or in other words
 //lw	$t2, ($t0)
 //load word at RAM address contained in $t0 into $t2
-char ** lw(char * reg1, char * op3)
+void lw(char * reg1, char * op3, int * espera, buffer ** buffers, ccycle * ciclos, int etapa)
 {
 	//~ printf("--------lw %s %s\n",reg1, op3);
 	//inicializando las variables
@@ -873,24 +956,61 @@ char ** lw(char * reg1, char * op3)
 	//~ strncpy(op3,&op3[largoNum+2],strlen(op3));
 	//~ op3[strlen(op3)-1]=0;
 
-	set_value(reg1, *(get_adress(temp2) + (offset/4)));
+	//ETAPA ID
+	if (etapa==0) {
+		buffers[0]->PC=PC;
+
+	}
+	//ETAPA IF
+	else if (etapa==1) {
+		/* code */
+		buffers[1]=buffers[0];
+		buffers[1]->RegDst = 0;
+		buffers[1]->jump = 0;
+		buffers[1]->Branch = 0;
+		buffers[1]->MemRead = 1;
+		buffers[1]->MemToReg = 1;
+		buffers[1]->ALUOp = 0;
+		buffers[1]->MemWrite = 0;
+		buffers[1]->ALUSrc = 1;
+		buffers[1]->RegWrite = 1;
+		if (buffers[1]->RegDst == 0) {
+			buffers[1]->RegRegDst = get_adress(reg1);
+		}
+	}
+	//ETAPA EX
+	else if (etapa==2) {
+		buffers[2]=buffers[1];
+		/* code */
+	}
+	//ETAPA MEM
+	else if (etapa==3) {
+		/* code */
+	}
+	//ETAPA WB
+	else if (etapa==4) {
+		/* code */
+		*espera = verificarNOP(*buffers);
+		set_value(reg1, *(get_adress(temp2) + (offset/4)));
+		PC +=1;
+	}
 
 	//~ getchar();
 	//Se da paso a la ejecuciOn de la siguiente linea de cOdigo
-	PC +=1;
 
 
-	char **lineasControl = (char**)malloc(9*sizeof(char*));
-	lineasControl[0] = "0";//RegDst
-	lineasControl[1] = "0";//Jump
-	lineasControl[2] = "0";//Branch
-	lineasControl[3] = "1";//MemRead
-	lineasControl[4] = "1";//MemToReg
-	lineasControl[5] = "00";//ALUOp
-	lineasControl[6] = "0";//MemWrite
-	lineasControl[7] = "1";//ALUSrc
-	lineasControl[8] = "1";//RegWrite
-	return lineasControl;
+
+	// char **lineasControl = (char**)malloc(9*sizeof(char*));
+	// lineasControl[0] = "0";//RegDst
+	// lineasControl[1] = "0";//Jump
+	// lineasControl[2] = "0";//Branch
+	// lineasControl[3] = "1";//MemRead
+	// lineasControl[4] = "1";//MemToReg
+	// lineasControl[5] = "00";//ALUOp
+	// lineasControl[6] = "0";//MemWrite
+	// lineasControl[7] = "1";//ALUSrc
+	// lineasControl[8] = "1";//RegWrite
+	// return lineasControl;
 }
 
 

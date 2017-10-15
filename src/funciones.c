@@ -2,6 +2,55 @@
 #include <stdio.h>
 #include "operaciones.c"
 
+void mostrarBuffer(buffer Buffer)
+{
+	printf("nombre: %s\n",Buffer.nombre );
+	printf("jump: %d\n", Buffer.jump);
+	printf("jal: %d\n", Buffer.jal);
+	printf("jr: %d\n", Buffer.jr);
+	printf("RegWrite: %d\n", Buffer.RegWrite);
+	printf("ALUSrc: %d\n", Buffer.ALUSrc);
+	printf("ALUOp: %d\n", Buffer.ALUOp);
+	printf("RegDst: %d\n", Buffer.RegDst);
+	printf("Branch: %d\n", Buffer.Branch);
+	printf("MemWrite: %d\n", Buffer.MemWrite);
+	printf("MemRead: %d\n", Buffer.MemRead);
+	printf("MemToReg: %d\n", Buffer.MemToReg);
+	printf("PCsrc: %d\n", Buffer.PCsrc);
+	printf("PC: %d\n", Buffer.PC);
+	printf("zero: %d\n", *(Buffer.zero));
+	printf("at: %d\n", *Buffer.at);
+	printf("v0: %d\n", *Buffer.v0);
+	printf("v1: %d\n", *Buffer.v1);
+	printf("a0: %d\n", *Buffer.a0);
+	printf("a1: %d\n", *Buffer.a1);
+	printf("a2: %d\n", *Buffer.a2);
+	printf("a3: %d\n", *Buffer.a3);
+	printf("t0: %d\n", *Buffer.t0);
+	printf("t1: %d\n", *Buffer.t1);
+	printf("t2: %d\n", *Buffer.t2);
+	printf("t3: %d\n", *Buffer.t3);
+	printf("t4: %d\n", *Buffer.t4);
+	printf("t5: %d\n", *Buffer.t5);
+	printf("t6: %d\n", *Buffer.t6);
+	printf("t7: %d\n", *Buffer.t7);
+	printf("s0: %d\n", *Buffer.s0);
+	printf("s1: %d\n", *Buffer.s1);
+	printf("s2: %d\n", *Buffer.s2);
+	printf("s3: %d\n", *Buffer.s3);
+	printf("s4: %d\n", *Buffer.s4);
+	printf("s5: %d\n", *Buffer.s5);
+	printf("s6: %d\n", *Buffer.s6);
+	printf("s7: %d\n", *Buffer.s7);
+	printf("t8: %d\n", *Buffer.t8);
+	printf("t9: %d\n", *Buffer.t9);
+	printf("k0: %d\n", *Buffer.k0);
+	printf("k1: %d\n", *Buffer.k1);
+	printf("gp: %d\n", *Buffer.gp);
+	printf("sp: %d\n", *Buffer.sp);
+	printf("fp: %d\n", *Buffer.fp);
+	printf("ra: %d\n", *Buffer.ra);
+}
 
 void setValoresInicialesRegistro(char * nombreArchivoRegistros)
 {
@@ -23,7 +72,7 @@ void setValoresInicialesRegistro(char * nombreArchivoRegistros)
 		set_value(registro, atoi(valor) );
 	}
 
-	print_register();
+	// print_register();
 
 
 
@@ -31,39 +80,39 @@ void setValoresInicialesRegistro(char * nombreArchivoRegistros)
 
 void set_reg_buffer(buffer * Buffer)
 {
-	Buffer->PC = get_value("PC");
-  Buffer->zero = get_value("zero");
-  Buffer->at = get_value("at");
-  Buffer->v0 = get_value("v0");
-  Buffer->v1 = get_value("v1");
-  Buffer->a0 = get_value("a0");
-  Buffer->a1 = get_value("a1");
-  Buffer->a2 = get_value("a2");
-  Buffer->a3 = get_value("a3");
-  Buffer->t0 = get_value("t0");
-  Buffer->t1 = get_value("t1");
-  Buffer->t2 = get_value("t2");
-  Buffer->t3 = get_value("t3");
-  Buffer->t4 = get_value("t4");
-  Buffer->t5 = get_value("t5");
-  Buffer->t6 = get_value("t6");
-  Buffer->t7 = get_value("t7");
-  Buffer->s0 = get_value("s0");
-  Buffer->s1 = get_value("s1");
-  Buffer->s2 = get_value("s2");
-  Buffer->s3 = get_value("s3");
-  Buffer->s4 = get_value("s4");
-  Buffer->s5 = get_value("s5");
-  Buffer->s6 = get_value("s6");
-  Buffer->s7 = get_value("s7");
-  Buffer->t8 = get_value("t8");
-  Buffer->t9 = get_value("t9");
-  Buffer->k0 = get_value("k0");
-  Buffer->k1 = get_value("k1");
-  Buffer->gp = get_value("gp");
-  Buffer->sp = get_value("sp");
-  Buffer->fp = get_value("fp");
-  Buffer->ra = get_value("ra");
+	// Buffer->PC = get_value("PC");
+	Buffer->zero = zero;
+	Buffer->at = at;
+	Buffer->v0 = v0;
+	Buffer->v1 = v1;
+	Buffer->a0 = a0;
+	Buffer->a1 = a1;
+	Buffer->a2 = a2;
+	Buffer->a3 = a3;
+	Buffer->t0 = t0;
+	Buffer->t1 = t1;
+	Buffer->t2 = t2;
+	Buffer->t3 = t3;
+	Buffer->t4 = t4;
+	Buffer->t5 = t5;
+	Buffer->t6 = t6;
+	Buffer->t7 = t7;
+	Buffer->s0 = s0;
+	Buffer->s1 = s1;
+	Buffer->s2 = s2;
+	Buffer->s3 = s3;
+	Buffer->s4 = s4;
+	Buffer->s5 = s5;
+	Buffer->s6 = s6;
+	Buffer->s7 = s7;
+	Buffer->t8 = t8;
+	Buffer->t9 = t9;
+	Buffer->k0 = k0;
+	Buffer->k1 = k1;
+	Buffer->gp = gp;
+	Buffer->sp = sp;
+	Buffer->fp = fp;
+	Buffer->ra = ra;
 }
 
 void compararSalida(FILE * Salida, lista * lineasControl, char ** lineasControlReal, int linea)
@@ -331,8 +380,10 @@ void ejecutarPrograma(char * nombreArchivoEntradaRegistrosIniciales, lista * ins
 	// buffer * bufferEXMEM = calloc(sizeof(buffer),1);
 	// buffer * bufferMEMWB = calloc(sizeof(buffer),1);
 
+	set_reg_buffer(buffers[0]);
 
-	set_reg_buffer(buffers[1]);
+	printf("%d",buffers[0]->PC);
+
 	// ~ mostrarListaEnlazada(instrucciones,cantidadInstrucciones);
 	//~ mostrarEtiquetas(etiquetas,cantidadEtiquetas);
 	FILE * Salida;
@@ -342,18 +393,51 @@ void ejecutarPrograma(char * nombreArchivoEntradaRegistrosIniciales, lista * ins
 		exit(1);
 	}
 
-	// char ** lineaControlActual = (char**)malloc(9*sizeof(char*));
+	char ** lineaControlActual = (char**)malloc(9*sizeof(char*));
 	//~ lista instruccionesUsadas = crearLista();
+	int PCtemp;
 	int posicion;
 	int linea = 1;
+
+	// char * temp1;
+	// char * temp2;
+	// char * temp3;
+	// char * temp4;
+	// char * temp5;
+	int etapa;
 	while( PC < cantidadInstrucciones )
 	{
 
 
 		/////BEGIN DEBUG MODE//////
-		//~ printf("PC: %d\n",PC);
+		printf("PC: %d\n",PC);
 		//~ mostrarCadenas(instrucciones[PC]);
 		//////END DEBUG MODE///////
+		PCtemp = PC;
+
+		ciclos[linea-1]->IF = instrucciones[PCtemp].arreglo[0].cadena;
+		ciclos[linea-1]->PCIF = PCtemp;
+		ciclos[linea-1]->IFinstruccion = instrucciones[PCtemp];
+
+
+
+		ciclos[linea]->ID = instrucciones[PCtemp].arreglo[0].cadena;
+		ciclos[linea]->PCID = PCtemp;
+		ciclos[linea]->IDinstruccion = instrucciones[PCtemp];
+
+		ciclos[linea+1]->EX = instrucciones[PCtemp].arreglo[0].cadena;
+		ciclos[linea+1]->PCEX = PCtemp;
+		ciclos[linea+1]->EXinstruccion = instrucciones[PCtemp];
+
+
+		ciclos[linea+2]->MEM = instrucciones[PCtemp].arreglo[0].cadena;
+		ciclos[linea+2]->PCMEM =PCtemp;
+		ciclos[linea+2]->MEMinstruccion = instrucciones[PCtemp];
+
+		ciclos[linea+3]->WB = instrucciones[PCtemp].arreglo[0].cadena;
+		ciclos[linea+3]->PCWB = PCtemp;
+		ciclos[linea+3]->WBinstruccion = instrucciones[PCtemp];
+
 
 		posicion=PC+1;
 		//~ posicion = buscarSTR(instruccionesUsadas, instrucciones[PC].arreglo[0].cadena);
@@ -362,100 +446,214 @@ void ejecutarPrograma(char * nombreArchivoEntradaRegistrosIniciales, lista * ins
 			//~ instruccionesUsadas = append(instruccionesUsadas,0,instrucciones[PC].arreglo[0].cadena);
 		//~ }
 		//~ posicion = buscarSTR(instruccionesUsadas, instrucciones[PC].arreglo[0].cadena)+1;
+		for (etapa = 4; etapa >= 0 ; etapa--) {
+			/* code */
 
-		if(strcmp(instrucciones[PC].arreglo[0].cadena, "addi") == 0)
-		{
-			lineaControlActual = addi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, atoi(instrucciones[PC].arreglo[3].cadena));
-			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
-		}
-		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "subi") == 0)
-		{
-			lineaControlActual = subi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, atoi(instrucciones[PC].arreglo[3].cadena) );
-			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
-		}
-		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "add")== 0)
-		{
-			lineaControlActual = add(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
-			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
-		}
-		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "sub")== 0)
-		{
-			lineaControlActual = sub(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
-			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
-		}
-		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "mul")== 0)
-		{
-			lineaControlActual = mul(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
-			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
-		}
-		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "div")== 0)
-		{
-			lineaControlActual = divi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
-			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
-		}
-		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "blt")== 0)
-		{
-			blt(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena, etiquetas, cantidadEtiquetas);
-		}
-		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "bgt")== 0)
-		{
-			bgt(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena, etiquetas, cantidadEtiquetas);
-		}
-		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "beq")== 0)
-		{
-			lineaControlActual = beq(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena, etiquetas, cantidadEtiquetas);
-			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
-		}
-		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "j")== 0)
-		{
-			lineaControlActual = j(instrucciones[PC].arreglo[1].cadena, etiquetas, cantidadEtiquetas);
-			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
-		}
-		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "jal")== 0)
-		{
-			jal(instrucciones[PC].arreglo[1].cadena, etiquetas, cantidadEtiquetas);
-		}
-		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "jr")== 0)
-		{
-			jr(instrucciones[PC].arreglo[1].cadena, etiquetas, cantidadEtiquetas);
-		}
-		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "la")== 0)
-		{
-			la(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena);
-		}
-		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "lw")== 0)
-		{
-			lineaControlActual = lw(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena);
-			//~ printf("LW comparando PC = %d\n",PC);
-			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
-		}
-		else if(strcmp(instrucciones[PC].arreglo[0].cadena, "sw")== 0)
-		{
-			lineaControlActual = sw(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena);
-			// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
-		}
-		else
-		{
-			printf("INSTRUCCION NO ENCONTRADA %s",instrucciones[PC].arreglo[0].cadena);
+			if (etapa ==0) {
+				/* code */
+				mostrarBuffer(*buffers[0]);
+				printf("0 Analizando: %s, PC: %d\n", ciclos[linea-1]->IFinstruccion.arreglo[0].cadena, PC);
+			}
+			else if (etapa ==1) {
+				/* code */
+				printf("1 Analizando: %s, PC: %d\n", ciclos[linea-1]->IDinstruccion.arreglo[0].cadena, PC);
+			}
+			else if (etapa ==2) {
+				/* code */
+				printf("2 Analizando: %s, PC: %d\n", ciclos[linea-1]->EXinstruccion.arreglo[0].cadena, PC);
+			}
+			else if (etapa ==3) {
+				/* code */
+				printf("3 Analizando: %s, PC: %d\n", ciclos[linea-1]->MEMinstruccion.arreglo[0].cadena, PC);
+			}
+			else if (etapa ==4) {
+				/* code */
+				printf("4 Analizando: %s, PC: %d\n", ciclos[linea-1]->WBinstruccion.arreglo[0].cadena, PC);
+			}
+
+			if ( strcmp(ciclos[linea-1]->IFinstruccion.arreglo[0].cadena, "(null)") == 0 )  {
+				printf("no sirve %s\n",ciclos[0]->IDinstruccion.arreglo[1].cadena);
+			}
+			// else if(strcmp(instrucciones[PC].arreglo[0].cadena, "addi") == 0)
+			// {
+			// 	addi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, atoi(instrucciones[PC].arreglo[3].cadena), espera, buffers, ciclos[linea-1], etapa);
+			// 	// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			// }
+			// else if(strcmp(instrucciones[PC].arreglo[0].cadena, "subi") == 0)
+			// {
+			// 	lineaControlActual = subi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, atoi(instrucciones[PC].arreglo[3].cadena) );
+			// 	// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			// }
+			else if(strcmp(ciclos[linea-1]->IFinstruccion.arreglo[0].cadena, "add")== 0)
+			{
+				add(ciclos[linea-1]->IFinstruccion.arreglo[1].cadena, ciclos[linea-1]->IFinstruccion.arreglo[2].cadena, ciclos[linea-1]->IFinstruccion.arreglo[3].cadena, espera, buffers, ciclos[linea-1], etapa);
+				// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			}
+			// else if(strcmp(instrucciones[PC].arreglo[0].cadena, "sub")== 0)
+			// {
+			// 	lineaControlActual = sub(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
+			// 	// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			// }
+			// else if(strcmp(instrucciones[PC].arreglo[0].cadena, "mul")== 0)
+			// {
+			// 	lineaControlActual = mul(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
+			// 	// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			// }
+			// else if(strcmp(instrucciones[PC].arreglo[0].cadena, "div")== 0)
+			// {
+			// 	lineaControlActual = divi(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena);
+			// 	// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			// }
+			// else if(strcmp(instrucciones[PC].arreglo[0].cadena, "blt")== 0)
+			// {
+			// 	blt(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena, etiquetas, cantidadEtiquetas);
+			// }
+			// else if(strcmp(instrucciones[PC].arreglo[0].cadena, "bgt")== 0)
+			// {
+			// 	bgt(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena, etiquetas, cantidadEtiquetas);
+			// }
+			// else if(strcmp(instrucciones[PC].arreglo[0].cadena, "beq")== 0)
+			// {
+			// 	lineaControlActual = beq(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena, instrucciones[PC].arreglo[3].cadena, etiquetas, cantidadEtiquetas);
+			// 	// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			// }
+			// else if(strcmp(instrucciones[PC].arreglo[0].cadena, "j")== 0)
+			// {
+			// 	lineaControlActual = j(instrucciones[PC].arreglo[1].cadena, etiquetas, cantidadEtiquetas);
+			// 	// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			// }
+			// else if(strcmp(instrucciones[PC].arreglo[0].cadena, "jal")== 0)
+			// {
+			// 	jal(instrucciones[PC].arreglo[1].cadena, etiquetas, cantidadEtiquetas);
+			// }
+			// else if(strcmp(instrucciones[PC].arreglo[0].cadena, "jr")== 0)
+			// {
+			// 	jr(instrucciones[PC].arreglo[1].cadena, etiquetas, cantidadEtiquetas);
+			// }
+			// else if(strcmp(instrucciones[PC].arreglo[0].cadena, "la")== 0)
+			// {
+			// 	la(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena);
+			// }
+			else if(strcmp(ciclos[linea-1]->IFinstruccion.arreglo[0].cadena, "lw")== 0)
+			{
+				lw(ciclos[linea-1]->IFinstruccion.arreglo[1].cadena, ciclos[linea-1]->IFinstruccion.arreglo[2].cadena,espera, buffers, ciclos[linea-1], etapa);
+				//~ printf("LW comparando PC = %d\n",PC);
+				// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			}
+			// else if(strcmp(instrucciones[PC].arreglo[0].cadena, "sw")== 0)
+			// {
+			// 	lineaControlActual = sw(instrucciones[PC].arreglo[1].cadena, instrucciones[PC].arreglo[2].cadena);
+			// 	// compararSalida(Salida, lineasControlEntrada, lineaControlActual,posicion);
+			// }
+			else
+			{
+				printf("INSTRUCCION NO ENCONTRADA %s",instrucciones[PC].arreglo[0].cadena);
+			}
+
+			printf("ESPERA: %d\n",*espera);
+			printf("asd\n");
+
+
+
+
+
 		}
 
+
+		// temp1 = calloc(sizeof(char),10);
+		// temp2 = calloc(sizeof(char),10);
+		// temp3 = calloc(sizeof(char),10);
+		// temp4 = calloc(sizeof(char),10);
+		// temp5 = calloc(sizeof(char),10);
+
+		// ciclos[linea-1]->IF = calloc(sizeof(char),10);
+		// ciclos[linea]->ID = calloc(sizeof(char),10);
+		// ciclos[linea+1]->EX = calloc(sizeof(char),10);
+		// ciclos[linea+2]->MEM = calloc(sizeof(char),10);
+		// ciclos[linea+3]->WB = calloc(sizeof(char),10);
 
 		if (*espera == 0) {
-			ciclos[linea-1]->IF = instrucciones[PC].arreglo[0].cadena;
-			ciclos[linea]->ID = instrucciones[PC].arreglo[0].cadena;
-			ciclos[linea+1]->EX = instrucciones[PC].arreglo[0].cadena;
-			ciclos[linea+2]->MEM = instrucciones[PC].arreglo[0].cadena;
-			ciclos[linea+3]->WB = instrucciones[PC].arreglo[0].cadena;
+			printf("%s PCtemp\n", instrucciones[PCtemp].arreglo[0].cadena);
+
+
+			// ciclos[linea-1]->IF = instrucciones[PCtemp].arreglo[0].cadena;
+			// ciclos[linea-1]->PCIF = PCtemp;
+			// ciclos[linea]->ID = instrucciones[PCtemp].arreglo[0].cadena;
+			// ciclos[linea]->PCID = PCtemp;
+			// ciclos[linea+1]->EX = instrucciones[PCtemp].arreglo[0].cadena;
+			// ciclos[linea+1]->PCEX = PCtemp;
+			// ciclos[linea+2]->MEM = instrucciones[PCtemp].arreglo[0].cadena;
+			// ciclos[linea+2]->PCMEM =PCtemp;
+			// ciclos[linea+3]->WB = instrucciones[PCtemp].arreglo[0].cadena;
+			// ciclos[linea+3]->PCWB = PCtemp;
+
+
+			// strcpy(ciclos[linea-1]->IF, instrucciones[PCtemp].arreglo[0].cadena);
+			// strcpy(ciclos[linea]->IF, instrucciones[PCtemp].arreglo[0].cadena);
+			// strcpy(ciclos[linea+1]->IF, instrucciones[PCtemp].arreglo[0].cadena);
+			// strcpy(ciclos[linea+2]->IF, instrucciones[PCtemp].arreglo[0].cadena);
+			// strcpy(ciclos[linea+3]->IF, instrucciones[PCtemp].arreglo[0].cadena);
+
+			// strcpy(temp1, instrucciones[PCtemp].arreglo[0].cadena);
+			// strcpy(temp2, instrucciones[PCtemp].arreglo[0].cadena);
+			// strcpy(temp3, instrucciones[PCtemp].arreglo[0].cadena);
+			// strcpy(temp4, instrucciones[PCtemp].arreglo[0].cadena);
+			// strcpy(temp5, instrucciones[PCtemp].arreglo[0].cadena);
+
+			// ciclos[linea-1]->IF = temp1;
+			// ciclos[linea]->ID= temp2;
+			// ciclos[linea+1]->EX= temp3;
+			// ciclos[linea+2]->MEM= temp4;
+			// ciclos[linea+3]->WB= temp5;
 		}
 		else{
-			ciclos[linea-1]->IF = "NOP";
-			ciclos[linea]->ID = "NOP";
-			ciclos[linea+1]->EX = "NOP";
-			ciclos[linea+2]->MEM = "NOP";
-			ciclos[linea+3]->WB = "NOP";
+			// ciclos[linea-1]->IF = "NOP";
+			// ciclos[linea]->ID = "NOP";
+			// ciclos[linea+1]->EX = "NOP";
+			// ciclos[linea+2]->MEM = "NOP";
+			// ciclos[linea+3]->WB = "NOP";
 		}
+
 		linea +=1;
 	}
+
+
+	fprintf(Salida,"Etapas;");
+	for (i = 1; i < 50; i++) {
+		fprintf(Salida,"C%d;",i);
+	}
+	fprintf(Salida,"\nIF;");
+	for (i = 0; i < 50; i++) {
+
+		fprintf(Salida,"%s;",ciclos[i]->IF);
+	}
+
+	fprintf(Salida,"\nID;");
+	for (i = 0; i < 50; i++) {
+
+		fprintf(Salida,"%s;",ciclos[i]->ID);
+	}
+
+	fprintf(Salida,"\nEx;");
+	for (i = 0; i < 50; i++) {
+
+		fprintf(Salida,"%s;",ciclos[i]->EX);
+	}
+
+	fprintf(Salida,"\nMEM;");
+	for (i = 0; i < 50; i++) {
+
+		fprintf(Salida,"%s;",ciclos[i]->MEM);
+	}
+
+	fprintf(Salida,"\nWB;");
+	for (i = 0; i < 50; i++) {
+
+		fprintf(Salida,"%s;",ciclos[i]->WB);
+	}
+
+
+	fclose(Salida);
 }
 
 lista * lineasDeControl(char * nombreArchivoEntradaLControl)
@@ -546,56 +744,6 @@ lista * lineasDeControl(char * nombreArchivoEntradaLControl)
 }
 
 
-
-void mostrarBuffer(buffer Buffer)
-{
-	printf("nombre: %s\n",Buffer.nombre );
-	printf("jump: %d\n", Buffer.jump);
-	printf("jal: %d\n", Buffer.jal);
-	printf("jr: %d\n", Buffer.jr);
-	printf("RegWrite: %d\n", Buffer.RegWrite);
-	printf("ALUSrc: %d\n", Buffer.ALUSrc);
-	printf("ALUOp: %d\n", Buffer.ALUOp);
-	printf("RegDst: %d\n", Buffer.RegDst);
-	printf("Branch: %d\n", Buffer.Branch);
-	printf("MemWrite: %d\n", Buffer.MemWrite);
-	printf("MemRead: %d\n", Buffer.MemRead);
-	printf("MemToReg: %d\n", Buffer.MemToReg);
-	printf("PCsrc: %d\n", Buffer.PCsrc);
-	printf("PC: %d\n", Buffer.PC);
-	printf("zero: %d\n", Buffer.zero);
-	printf("at: %d\n", Buffer.at);
-	printf("v0: %d\n", Buffer.v0);
-	printf("v1: %d\n", Buffer.v1);
-	printf("a0: %d\n", Buffer.a0);
-	printf("a1: %d\n", Buffer.a1);
-	printf("a2: %d\n", Buffer.a2);
-	printf("a3: %d\n", Buffer.a3);
-	printf("t0: %d\n", Buffer.t0);
-	printf("t1: %d\n", Buffer.t1);
-	printf("t2: %d\n", Buffer.t2);
-	printf("t3: %d\n", Buffer.t3);
-	printf("t4: %d\n", Buffer.t4);
-	printf("t5: %d\n", Buffer.t5);
-	printf("t6: %d\n", Buffer.t6);
-	printf("t7: %d\n", Buffer.t7);
-	printf("s0: %d\n", Buffer.s0);
-	printf("s1: %d\n", Buffer.s1);
-	printf("s2: %d\n", Buffer.s2);
-	printf("s3: %d\n", Buffer.s3);
-	printf("s4: %d\n", Buffer.s4);
-	printf("s5: %d\n", Buffer.s5);
-	printf("s6: %d\n", Buffer.s6);
-	printf("s7: %d\n", Buffer.s7);
-	printf("t8: %d\n", Buffer.t8);
-	printf("t9: %d\n", Buffer.t9);
-	printf("k0: %d\n", Buffer.k0);
-	printf("k1: %d\n", Buffer.k1);
-	printf("gp: %d\n", Buffer.gp);
-	printf("sp: %d\n", Buffer.sp);
-	printf("fp: %d\n", Buffer.fp);
-	printf("ra: %d\n", Buffer.ra);
-}
 
 
 
@@ -764,5 +912,5 @@ void Archivo(char * nombreArchivoEntradaRegistrosIniciales, char * nombreArchivo
 
 
 	//~ print_register();
-	getchar();
+	// getchar();
 }

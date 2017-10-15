@@ -40,19 +40,23 @@ int main()
 	sp = calloc(sizeof(int),1);
 	fp = calloc(sizeof(int),1);
 	ra = calloc(sizeof(int),1);
+	
 
 
 	char * nombreArchivoEntradaInstrucciones = calloc(sizeof(char),40);
 	char * nombreArchivoSalida = calloc(sizeof(char),40);
 	char * nombreArchivoEntradaRegistrosIniciales = calloc(sizeof(char),40);
+
+	nombreArchivoSalida = "salida.csv";
+	nombreArchivoEntradaInstrucciones = "ejemploMips1.asm";
 	nombreArchivoEntradaRegistrosIniciales = "inputRegistros.txt";
 
-	setValoresInicialesRegistro(nombreArchivoEntradaRegistrosIniciales);
+	// setValoresInicialesRegistro(nombreArchivoEntradaRegistrosIniciales);
 
-	buffer * bufferIFID = calloc(sizeof(buffer),1);
+	// buffer * bufferIFID = calloc(sizeof(buffer),1);
 
-	set_reg_buffer(bufferIFID);
-	mostrarBuffer(*bufferIFID);
+	// set_reg_buffer(bufferIFID);
+	// mostrarBuffer(*bufferIFID);
 
 
 
@@ -69,10 +73,10 @@ int main()
 
 
 
-
-	// Archivo(nombreArchivoEntradaLControl, nombreArchivoEntradaInstrucciones, nombreArchivoSalida);
-	//~ getchar();
+	printf("INICIO PROGRAMA\n");
+	Archivo(nombreArchivoEntradaRegistrosIniciales, nombreArchivoEntradaInstrucciones, nombreArchivoSalida);
+	printf("FIN PROGRAMA\n");
 	exit(0);
 
-    return 0;
+  return 0;
 }
