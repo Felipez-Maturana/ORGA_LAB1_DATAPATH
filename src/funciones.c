@@ -631,7 +631,7 @@ void ejecutarPrograma(char * nombreArchivoEntradaRegistrosIniciales, lista * ins
 	fprintf(Salida,"\nID;");
 	for (i = 0; i < 50; i++) {
 
-		fprintf(Salida,"%s;",ciclos[i]->ID);
+		fprintf(Salida,"%s %d;",ciclos[i]->ID, buffers[1]->MemWrite);
 	}
 
 	fprintf(Salida,"\nEx;");

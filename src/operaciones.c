@@ -134,19 +134,26 @@ int * get_adress(char * nameReg)
 
 int verificarNOP(buffer * buffers)
 {
+	printf("REG WRITE EX/MEM:%d, REG WRITE MEM/WB:%d\n",buffers[2].RegWrite, buffers[3].RegWrite);
+	printf("%d\n",buffers[1].RegRegDst );
 	if (buffers[2].RegWrite == 1 && buffers[2].RegRegDst != get_adress("zero") && buffers[2].RegRegDst == buffers[1].rs  ) {
+		printf("NOP1\n" );
 		return 1;
 	}
 	else if (buffers[2].RegWrite == 1 && buffers[2].RegRegDst != get_adress("zero") && buffers[2].RegRegDst == buffers[1].rt  ) {
+		printf("NOP2\n" );
 		return 2;
 	}
 	else if (buffers[3].RegWrite == 1 && buffers[3].RegRegDst != get_adress("zero") && buffers[3].RegRegDst == buffers[1].rs  ) {
+		printf("NOP3\n" );
 		return 3;
 	}
 	else if (buffers[3].RegWrite == 1 && buffers[3].RegRegDst != get_adress("zero") && buffers[3].RegRegDst == buffers[1].rt  ) {
+		printf("NOP4\n" );
 		return 4;
 	}
 	else if (buffers[1].MemRead == 1 && (buffers[1].rt == buffers[0].rs || buffers[1].rt == buffers[0].rt  ) ) {
+		printf("NOP5\n" );
 		return 5;
 	}
 	else{
@@ -659,7 +666,7 @@ void add(char * reg1, char * reg2, char * reg3, int * espera, buffer ** buffers,
 	//Etapa IF
 	if (etapa == 0) {
 		printf("etapaIF\n");
-		buffers[0]->PC = get_value("PC");
+		// buffers[0]->PC = get_value("PC");
 	}
 	//Etapa ID
 	else if (etapa == 1) {
@@ -692,7 +699,7 @@ void add(char * reg1, char * reg2, char * reg3, int * espera, buffer ** buffers,
 	//Etapa WB
 	else if (etapa == 4) {
 		*espera = verificarNOP(*buffers);
-		buffers[0]=buffers[3];
+		// buffers[0]=buffers[3];
 		printf("etapa4\n");
 		int res = get_value(reg2) + get_value(reg3);
 		set_value(reg1,res);
@@ -958,7 +965,7 @@ void lw(char * reg1, char * op3, int * espera, buffer ** buffers, ccycle * ciclo
 
 	//ETAPA ID
 	if (etapa==0) {
-		buffers[0]->PC=PC;
+		// buffers[0]->PC=PC;
 
 	}
 	//ETAPA IF
